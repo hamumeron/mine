@@ -359,8 +359,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
       <div class="load-sub" id="load-sub">eaglercraftXOptsを解析</div>
       <div class="load-tags" id="load-tags-disp"></div>
     </div>
-    <iframe id="game-frame" allowfullscreen allow="fullscreen;autoplay;pointer-lock"
-      sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock allow-modals"></iframe>
+    <!-- sandbox を外すことでキーボード・pointer lockが正常動作する -->
+    <iframe id="game-frame" allowfullscreen
+      allow="fullscreen *; autoplay *; pointer-lock *; keyboard-map *"></iframe>
+    <!-- クリックでフォーカスを強制的にiframeへ -->
+    <div id="focus-overlay" onclick="forceFocus()" style="position:absolute;inset:0;z-index:5;display:none;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;flex-direction:column;gap:12px;cursor:pointer">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:#fff">クリックしてゲームにフォーカス</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.5)">キーボードを使うにはゲーム画面をクリックしてください</div>
+    </div>
   </div>
   <div class="qbar">
     <span class="ql">品質プリセット</span>
@@ -667,10 +673,21 @@ function launchGame(filename) {
       document.getElementById('load-sub').textContent=b;
       setTimeout(step, 350+Math.random()*300);
     } else {
-      document.getElementById('game-frame').src=gameUrl;
+      const frame = document.getElementById('game-frame');
+      frame.src = gameUrl;
+      frame.focus();
       setTimeout(() => {
         overlay.style.opacity='0';
-        setTimeout(()=>{ overlay.style.display='none'; },500);
+        setTimeout(()=>{
+          overlay.style.display='none';
+          // ロード完了後にフォーカスをiframeへ
+          frame.focus();
+          try { frame.contentWindow.focus(); } catch(e) {}
+          // 「クリックしてフォーカス」ヒントを短時間表示
+          const fo = document.getElementById('focus-overlay');
+          fo.style.display='flex';
+          setTimeout(()=>{ fo.style.display='none'; }, 3000);
+        },500);
       },300);
       startFPS();
     }
@@ -684,7 +701,64 @@ function closeGame() {
   document.body.style.overflow='';
   clearInterval(fpsTimer);
   document.getElementById('fps-live').textContent='-- FPS';
+  document.getElementById('focus-overlay').style.display='none';
 }
+
+function forceFocus() {
+  const frame = document.getElementById('game-frame');
+  document.getElementById('focus-overlay').style.display='none';
+  frame.focus();
+  // iframeにフォーカスを渡す
+  try { frame.contentWindow.focus(); } catch(e) {}
+}
+
+// iframeがロードされたらフォーカスを自動付与
+document.getElementById('game-frame').addEventListener('load', function() {
+  setTimeout(() => {
+    const frame = document.getElementById('game-frame');
+    frame.focus();
+    try { frame.contentWindow.focus(); } catch(e) {}
+  }, 500);
+});
+
+// ゲーム画面クリックでiframeにフォーカス
+document.getElementById('launcher').addEventListener('click', function(e) {
+  const frame = document.getElementById('game-frame');
+  const overlay = document.getElementById('focus-overlay');
+  if (e.target === frame || frame.contains(e.target)) {
+    frame.focus();
+    try { frame.contentWindow.focus(); } catch(e2) {}
+    overlay.style.display='none';
+  }
+});
+
+// 親ウィンドウのキーイベントをiframeに転送
+document.addEventListener('keydown', function(e) {
+  const frame = document.getElementById('game-frame');
+  const launcher = document.getElementById('launcher');
+  if (!launcher.classList.contains('on')) return;
+  // Escキーはマウスロック解除なのでiframeに任せる
+  try {
+    frame.contentWindow.dispatchEvent(new KeyboardEvent('keydown', {
+      key: e.key, code: e.code, keyCode: e.keyCode,
+      which: e.which, bubbles: true, cancelable: true,
+      shiftKey: e.shiftKey, ctrlKey: e.ctrlKey, altKey: e.altKey
+    }));
+  } catch(err) {}
+}, true);
+
+document.addEventListener('keyup', function(e) {
+  const frame = document.getElementById('game-frame');
+  const launcher = document.getElementById('launcher');
+  if (!launcher.classList.contains('on')) return;
+  try {
+    frame.contentWindow.dispatchEvent(new KeyboardEvent('keyup', {
+      key: e.key, code: e.code, keyCode: e.keyCode,
+      which: e.which, bubbles: true, cancelable: true,
+      shiftKey: e.shiftKey, ctrlKey: e.ctrlKey, altKey: e.altKey
+    }));
+  } catch(err) {}
+}, true);
 
 function startFPS() {
   let fps=58;
