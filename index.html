@@ -3,779 +3,887 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EaglerCloud — Play Eaglercraft</title>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>EaglerCloud</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0a0c10;--bg-card:#12151c;--bg-surface:#1a1e28;--bg-hover:#222737;
-  --accent:#76b900;--accent-dim:#2a3d00;--accent-glow:rgba(118,185,0,.15);
-  --text:#e8eaf0;--text2:#8b90a0;--text3:#555a6e;
-  --border:rgba(255,255,255,.07);--border-a:rgba(118,185,0,.3);
-  --red:#e53935;--gold:#ffd600;--blue:#2196f3;
+  --bg:#08090d;--bg-card:#10131a;--bg-surf:#171b24;--bg-hover:#1e2330;
+  --acc:#76b900;--acc-dim:#243800;--acc-glow:rgba(118,185,0,.12);
+  --text:#e6e8f0;--text2:#7e8494;--text3:#444a5a;
+  --bdr:rgba(255,255,255,.06);--bdr-a:rgba(118,185,0,.28);
+  --red:#e53935;--gold:#ffc107;
 }
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;overflow-x:hidden}
-::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bg-hover);border-radius:3px}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--bg-hover);border-radius:2px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-.topbar{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;background:rgba(10,12,16,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:28px}
-.logo{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:22px;color:var(--accent);letter-spacing:1px;display:flex;align-items:center;gap:10px}
-.logo-sub{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--text3);text-transform:uppercase}
-.nav{display:flex;gap:20px;list-style:none}
-.nav a{color:var(--text2);text-decoration:none;font-size:13px;font-weight:500;transition:color .2s;cursor:pointer}
-.nav a:hover,.nav a.on{color:var(--text)}
-.ml{margin-left:auto;display:flex;align-items:center;gap:14px}
-.tier{background:var(--accent);color:#000;font-size:10px;font-weight:700;padding:3px 10px;border-radius:3px;letter-spacing:1px;text-transform:uppercase}
-.av{width:30px;height:30px;border-radius:50%;background:var(--bg-surface);border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--accent)}
+/* ─── TOPBAR ─── */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;height:50px;
+  background:rgba(8,9,13,.96);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;padding:0 22px;gap:24px}
+.logo{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:21px;color:var(--acc);letter-spacing:.5px;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.logo-dot{width:7px;height:7px;border-radius:50%;background:var(--acc);animation:pulse 2.4s infinite}
+.nav-links{display:flex;gap:4px;list-style:none}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:12px;font-weight:500;padding:5px 12px;border-radius:4px;transition:all .15s;cursor:pointer}
+.nav-links a:hover{color:var(--text);background:var(--bg-surf)}
+.nav-links a.on{color:var(--text);background:var(--bg-surf)}
+.topbar-r{margin-left:auto;display:flex;align-items:center;gap:10px}
+.chip{font-size:10px;font-weight:700;letter-spacing:1px;padding:3px 9px;border-radius:3px;text-transform:uppercase}
+.chip.green{background:var(--acc);color:#000}
+.chip.stored{background:var(--acc-glow);border:1px solid var(--bdr-a);color:var(--acc)}
 
-.hero{margin-top:52px;position:relative;height:340px;overflow:hidden;display:flex;align-items:flex-end}
-.hero-bg{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 20%,var(--bg) 100%),linear-gradient(to right,var(--bg) 0%,transparent 45%),url('https://eaglercraft.com/img/ss/1.8-screenshot-3.webp') center/cover no-repeat;filter:saturate(.6) brightness(.45)}
-.hero-inner{position:relative;z-index:2;padding:0 48px 36px;max-width:560px}
-.hero-pill{display:inline-flex;align-items:center;gap:6px;background:var(--accent-glow);border:1px solid var(--border-a);color:var(--accent);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:3px 12px;border-radius:3px;margin-bottom:14px}
-.hero-pill::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-.hero-title{font-family:'Rajdhani',sans-serif;font-size:48px;font-weight:700;line-height:1;margin-bottom:10px;letter-spacing:1px}
-.hero-title span{color:var(--accent)}
-.hero-desc{color:var(--text2);font-size:13px;line-height:1.65;margin-bottom:20px;max-width:420px}
-.btns{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.btn-play{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#000;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;letter-spacing:1px;padding:11px 26px;border-radius:4px;cursor:pointer;border:none;text-transform:uppercase;transition:all .2s}
-.btn-play:hover{background:#8fd000;transform:translateY(-1px);box-shadow:0 4px 18px rgba(118,185,0,.35)}
-.btn-sec{display:inline-flex;align-items:center;gap:7px;background:transparent;color:var(--text);border:1px solid var(--border);padding:10px 18px;border-radius:4px;cursor:pointer;font-size:13px;transition:all .2s;font-family:'Inter',sans-serif}
-.btn-sec:hover{border-color:rgba(255,255,255,.18);background:var(--bg-surface)}
+/* ─── HERO ─── */
+.hero{margin-top:50px;position:relative;height:300px;overflow:hidden;display:flex;align-items:flex-end}
+.hero-bg{position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 10%,var(--bg) 100%),
+             linear-gradient(to right,var(--bg) 0%,transparent 50%),
+             url('https://eaglercraft.com/img/ss/1.8-screenshot-3.webp') center/cover;
+  filter:saturate(.5) brightness(.4)}
+.hero-c{position:relative;z-index:2;padding:0 40px 32px;max-width:520px}
+.hero-tag{display:inline-flex;align-items:center;gap:5px;background:var(--acc-glow);border:1px solid var(--bdr-a);color:var(--acc);font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:3px;margin-bottom:12px}
+.hero-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--acc);animation:pulse 2s infinite}
+.hero-title{font-family:'Rajdhani',sans-serif;font-size:46px;font-weight:700;line-height:1;letter-spacing:.5px;margin-bottom:8px}
+.hero-title em{color:var(--acc);font-style:normal}
+.hero-desc{color:var(--text2);font-size:13px;line-height:1.6;margin-bottom:18px;max-width:380px}
+.hero-btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn-prim{display:inline-flex;align-items:center;gap:7px;background:var(--acc);color:#000;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:.8px;padding:9px 22px;border-radius:4px;cursor:pointer;border:none;text-transform:uppercase;transition:all .2s}
+.btn-prim:hover{background:#88d000;transform:translateY(-1px);box-shadow:0 4px 16px rgba(118,185,0,.3)}
+.btn-prim:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{display:inline-flex;align-items:center;gap:7px;background:transparent;color:var(--text);border:1px solid var(--bdr);padding:8px 16px;border-radius:4px;cursor:pointer;font-size:13px;transition:all .2s;font-family:'Inter',sans-serif}
+.btn-ghost:hover{border-color:rgba(255,255,255,.16);background:var(--bg-surf)}
 
-.statsbar{display:flex;background:var(--bg-card);border-bottom:1px solid var(--border)}
-.stat{flex:1;padding:12px 20px;border-right:1px solid var(--border)}
-.stat:last-child{border-right:none}
-.slabel{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:2px}
-.sval{font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700}
-.sval.g{color:var(--accent)}.sval.gold{color:var(--gold)}.sval.blue{color:var(--blue)}
+/* ─── STATSBAR ─── */
+.statsbar{display:flex;background:var(--bg-card);border-bottom:1px solid var(--bdr)}
+.stat-item{flex:1;padding:10px 18px;border-right:1px solid var(--bdr);cursor:default}
+.stat-item:last-child{border-right:none}
+.stat-l{font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text3);margin-bottom:2px}
+.stat-v{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700}
+.stat-v.g{color:var(--acc)}.stat-v.gold{color:var(--gold)}.stat-v.dim{color:var(--text2)}
 
-.content{padding:32px 48px}
-.sec-head{display:flex;align-items:center;gap:14px;margin-bottom:18px}
-.sec-title{font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
-.sec-line{flex:1;height:1px;background:var(--border)}
+/* ─── CONTENT / TABS ─── */
+.page{padding:28px 40px;display:none;animation:fadeIn .2s ease}
+.page.on{display:block}
 
-/* TABS */
-.tabs{display:flex;gap:2px;margin-bottom:28px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:4px}
-.tab{flex:1;padding:8px 16px;border-radius:4px;font-size:13px;font-weight:500;cursor:pointer;text-align:center;color:var(--text2);transition:all .15s;border:none;background:transparent;font-family:'Inter',sans-serif}
-.tab.on{background:var(--bg-surface);color:var(--text);border:1px solid var(--border)}
+.sec-h{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.sec-t{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.sec-line{flex:1;height:1px;background:var(--bdr)}
 
-/* UPLOAD ZONE */
-.upload-zone{border:2px dashed var(--border-a);border-radius:10px;padding:32px;text-align:center;background:var(--accent-glow);transition:all .2s;cursor:pointer;margin-bottom:14px;position:relative}
-.upload-zone:hover,.upload-zone.drag{border-color:var(--accent);background:rgba(118,185,0,.1)}
-.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.uz-icon{font-size:32px;margin-bottom:8px}
-.uz-title{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:var(--accent);margin-bottom:6px}
-.uz-sub{font-size:13px;color:var(--text2);line-height:1.7}
+/* ─── UPLOAD ZONE ─── */
+.drop-zone{position:relative;border:2px dashed var(--bdr-a);border-radius:10px;padding:28px 20px;text-align:center;background:var(--acc-glow);transition:all .2s;cursor:pointer;margin-bottom:12px}
+.drop-zone:hover,.drop-zone.drag{border-color:var(--acc);background:rgba(118,185,0,.08)}
+.drop-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.dz-icon{font-size:30px;margin-bottom:8px}
+.dz-title{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--acc);margin-bottom:4px}
+.dz-sub{font-size:12px;color:var(--text2);line-height:1.6}
 
-#file-list{display:none;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:12px 16px;margin-bottom:12px;font-size:12px;color:var(--text2);max-height:140px;overflow-y:auto}
-#file-list .hl{color:var(--accent);font-weight:600}
+/* stored game card */
+.stored-card{background:var(--bg-card);border:1px solid var(--bdr-a);border-radius:8px;padding:16px 20px;display:flex;align-items:center;gap:16px;margin-bottom:12px;animation:fadeIn .3s ease}
+.stored-icon{font-size:28px;flex-shrink:0}
+.stored-info{flex:1;min-width:0}
+.stored-name{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stored-meta{font-size:11px;color:var(--text2);margin-top:2px}
+.stored-actions{display:flex;gap:6px;flex-shrink:0}
+.btn-sm{padding:5px 14px;border-radius:3px;font-size:11px;font-weight:600;border:1px solid;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif;letter-spacing:.3px}
+.btn-sm.play{background:var(--acc);border-color:var(--acc);color:#000}
+.btn-sm.play:hover{background:#88d000}
+.btn-sm.del{background:transparent;border-color:rgba(229,57,53,.3);color:var(--red)}
+.btn-sm.del:hover{background:rgba(229,57,53,.1)}
 
-.progress-wrap{margin-bottom:20px;display:none}
-.progress-label{display:flex;justify-content:space-between;margin-bottom:7px;font-size:12px;color:var(--text2)}
-.progress-bar-bg{height:4px;background:var(--bg-surface);border-radius:2px;overflow:hidden}
-.progress-bar-fill{height:100%;background:var(--accent);border-radius:2px;width:0;transition:width .3s;box-shadow:0 0 6px var(--accent)}
-.progress-files{margin-top:6px;font-size:11px;color:var(--text3)}
+/* progress */
+.prog-wrap{margin-bottom:16px;display:none}
+.prog-row{display:flex;justify-content:space-between;margin-bottom:6px;font-size:11px;color:var(--text2)}
+.prog-bg{height:4px;background:var(--bg-surf);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:var(--acc);border-radius:2px;width:0;transition:width .35s;box-shadow:0 0 6px var(--acc)}
+.prog-sub{margin-top:5px;font-size:10px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-#error-box{display:none;background:rgba(229,57,53,.08);border:1px solid rgba(229,57,53,.3);border-radius:6px;padding:12px 16px;margin-bottom:14px;color:#ff6b6b;font-size:13px;line-height:1.6}
-#success-box{display:none;background:var(--accent-glow);border:1px solid var(--border-a);border-radius:6px;padding:12px 16px;margin-bottom:14px;color:var(--accent);font-size:13px}
+/* alerts */
+.alert{display:none;border-radius:6px;padding:10px 14px;margin-bottom:12px;font-size:12px;line-height:1.6}
+.alert.err{background:rgba(229,57,53,.07);border:1px solid rgba(229,57,53,.25);color:#ff7070}
+.alert.ok{background:var(--acc-glow);border:1px solid var(--bdr-a);color:var(--acc)}
 
-/* PERFORMANCE SETTINGS */
-.perf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:24px}
-.pc{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px;transition:border-color .2s,background .2s;position:relative}
-.pc:hover{border-color:rgba(255,255,255,.12)}
-.pc.real{border-color:var(--border-a)}
-.pc.real::before{content:'実装済み';position:absolute;top:10px;right:10px;font-size:9px;font-weight:700;letter-spacing:1px;background:var(--accent);color:#000;padding:2px 7px;border-radius:2px;text-transform:uppercase}
-.pch{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.pcn{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:1px}
-.pcv{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
-.pcv.acc{color:var(--accent)}
-.sl{width:100%;-webkit-appearance:none;appearance:none;height:4px;background:var(--bg-surface);border-radius:2px;outline:none;cursor:pointer;border:none}
-.sl::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 5px rgba(118,185,0,.5)}
-.ss{width:100%;background:var(--bg-surface);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:4px;font-size:13px;outline:none;appearance:none;cursor:pointer}
-.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)}
-.toggle-row:last-child{border:none}
-.tgl-info{display:flex;flex-direction:column;gap:1px}
-.tgl-name{font-size:12px;color:var(--text)}
-.tgl-sub{font-size:10px;color:var(--text3)}
-.tgl{width:36px;height:19px;border-radius:10px;background:var(--bg-surface);border:1px solid var(--border);position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
-.tgl.on{background:var(--accent);border-color:var(--accent)}
-.tgl::after{content:'';position:absolute;top:3px;left:3px;width:11px;height:11px;border-radius:50%;background:#fff;transition:left .2s}
-.tgl.on::after{left:20px}
+/* file tree */
+#ftree{display:none;background:var(--bg-card);border:1px solid var(--bdr);border-radius:6px;padding:10px 14px;margin-bottom:10px;font-size:11px;color:var(--text2);max-height:110px;overflow-y:auto}
+#ftree .fh{color:var(--acc);font-weight:600}
 
-/* HOW IT WORKS */
-.how-box{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:24px}
-.how-steps{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-top:14px}
-.how-step{display:flex;flex-direction:column;gap:6px;padding:14px;background:var(--bg-surface);border-radius:6px;border:1px solid var(--border)}
-.how-num{font-family:'Rajdhani',sans-serif;font-size:26px;font-weight:700;color:var(--accent);line-height:1}
-.how-title{font-size:13px;font-weight:600;color:var(--text)}
-.how-desc{font-size:12px;color:var(--text2);line-height:1.5}
-.badge-real{display:inline-block;background:var(--accent);color:#000;font-size:9px;font-weight:700;padding:1px 6px;border-radius:2px;letter-spacing:.5px;vertical-align:middle;margin-left:4px}
-.badge-ui{display:inline-block;background:var(--bg-hover);color:var(--text3);font-size:9px;font-weight:700;padding:1px 6px;border-radius:2px;letter-spacing:.5px;vertical-align:middle;margin-left:4px}
+/* ─── SETTINGS GRID ─── */
+.opt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-bottom:20px}
+.opt-card{background:var(--bg-card);border:1px solid var(--bdr);border-radius:7px;padding:14px;position:relative;transition:border-color .2s}
+.opt-card:hover{border-color:rgba(255,255,255,.1)}
+.opt-card.live{border-color:var(--bdr-a)}
+.live-badge{position:absolute;top:9px;right:9px;font-size:8px;font-weight:700;letter-spacing:.8px;background:var(--acc);color:#000;padding:1px 6px;border-radius:2px;text-transform:uppercase}
+.opt-name{font-size:10px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.opt-val{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:var(--acc);margin-bottom:6px}
+.sl{width:100%;-webkit-appearance:none;appearance:none;height:3px;background:var(--bg-surf);border-radius:2px;outline:none;cursor:pointer;border:none;margin-top:2px}
+.sl::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--acc);cursor:pointer;box-shadow:0 0 4px rgba(118,185,0,.5)}
+.ss{width:100%;background:var(--bg-surf);border:1px solid var(--bdr);color:var(--text);padding:6px 8px;border-radius:4px;font-size:12px;outline:none;appearance:none;cursor:pointer}
+.tog-row{display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.03)}
+.tog-row:last-child{border:none}
+.tog-lbl{font-size:11px;color:var(--text);line-height:1.3}
+.tog-sub{font-size:9px;color:var(--text3);margin-top:1px}
+.tgl{width:34px;height:18px;border-radius:9px;background:var(--bg-surf);border:1px solid var(--bdr);position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+.tgl.on{background:var(--acc);border-color:var(--acc)}
+.tgl::after{content:'';position:absolute;top:3px;left:3px;width:10px;height:10px;border-radius:50%;background:#fff;transition:left .15s}
+.tgl.on::after{left:19px}
 
-/* LAUNCH OVERLAY */
-#launcher{position:fixed;inset:0;z-index:200;display:none;flex-direction:column;background:var(--bg)}
+/* ─── STATS PAGE ─── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:24px}
+.stats-card{background:var(--bg-card);border:1px solid var(--bdr);border-radius:8px;padding:18px 16px;text-align:center}
+.stats-card-icon{font-size:24px;margin-bottom:8px}
+.stats-card-val{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:var(--acc);line-height:1;margin-bottom:4px}
+.stats-card-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)}
+.session-list{background:var(--bg-card);border:1px solid var(--bdr);border-radius:8px;overflow:hidden;margin-bottom:20px}
+.session-hdr{display:flex;padding:8px 16px;background:var(--bg-surf);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--bdr)}
+.session-row{display:flex;padding:9px 16px;border-bottom:1px solid var(--bdr);font-size:12px;align-items:center}
+.session-row:last-child{border-bottom:none}
+.session-row:hover{background:var(--bg-hover)}
+.s-date{flex:1.2;color:var(--text2)}
+.s-dur{flex:1;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:var(--acc)}
+.s-file{flex:2;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ─── GAME LAUNCHER ─── */
+#launcher{position:fixed;inset:0;z-index:200;display:none;flex-direction:column;background:#000}
 #launcher.on{display:flex}
-.l-top{height:46px;background:rgba(10,12,16,.98);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 18px;gap:14px;flex-shrink:0}
-.l-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:blink 2s infinite}
-.l-title{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;color:var(--accent);letter-spacing:.5px}
-.l-info{font-size:11px;color:var(--text3)}
-.l-tags{display:flex;gap:6px;margin-left:8px}
-.l-tag{font-size:10px;font-weight:600;padding:2px 8px;border-radius:2px;letter-spacing:.5px;text-transform:uppercase}
-.l-tag.green{background:var(--accent-glow);color:var(--accent);border:1px solid var(--border-a)}
-.l-close{margin-left:auto;background:transparent;border:1px solid var(--border);color:var(--text2);padding:4px 14px;border-radius:3px;cursor:pointer;font-size:12px;font-family:'Inter',sans-serif;transition:all .15s}
-.l-close:hover{border-color:var(--red);color:var(--red)}
-.l-body{flex:1;position:relative;display:flex;flex-direction:column;overflow:hidden}
-#game-frame{flex:1;border:none;background:#000;width:100%;height:100%;display:block}
+.g-top{height:44px;background:rgba(8,9,13,.98);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 16px;gap:12px;flex-shrink:0}
+.g-dot{width:6px;height:6px;border-radius:50%;background:var(--acc);animation:pulse 2s infinite}
+.g-title{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:var(--acc);letter-spacing:.5px}
+.g-info{font-size:11px;color:var(--text3);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.g-timer{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:var(--gold);letter-spacing:1px}
+.g-fps{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:var(--acc);letter-spacing:1px;min-width:60px;text-align:right}
+.g-close{margin-left:auto;background:transparent;border:1px solid var(--bdr);color:var(--text2);padding:4px 12px;border-radius:3px;cursor:pointer;font-size:11px;font-family:'Inter',sans-serif;transition:all .15s}
+.g-close:hover{border-color:var(--red);color:var(--red)}
+.g-body{flex:1;position:relative;overflow:hidden}
+#gframe{position:absolute;inset:0;border:none;background:#000;width:100%;height:100%}
 
-#load-overlay{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;z-index:10;transition:opacity .5s}
-.load-logo{font-family:'Rajdhani',sans-serif;font-size:34px;font-weight:700;color:var(--accent)}
-.load-status{font-size:13px;color:var(--text2);letter-spacing:1px}
-.load-bar-bg{width:280px;height:3px;background:var(--bg-surface);border-radius:2px;overflow:hidden}
-.load-bar{height:100%;background:var(--accent);border-radius:2px;width:0;transition:width .4s;box-shadow:0 0 8px var(--accent)}
-.load-sub{font-size:11px;color:var(--text3);letter-spacing:.5px}
-.load-tags{display:flex;gap:8px;margin-top:4px}
-.load-tag{font-size:10px;font-weight:600;padding:2px 10px;border-radius:2px;background:var(--accent-glow);border:1px solid var(--border-a);color:var(--accent);letter-spacing:.5px}
+/* focus hint */
+#focus-hint{position:absolute;inset:0;z-index:5;display:none;align-items:center;justify-content:center;flex-direction:column;gap:10px;cursor:pointer;background:rgba(0,0,0,.55);backdrop-filter:blur(2px)}
+#focus-hint h2{font-family:'Rajdhani',sans-serif;font-size:24px;color:#fff}
+#focus-hint p{font-size:12px;color:rgba(255,255,255,.5)}
 
-.qbar{background:var(--bg-card);border-top:1px solid var(--border);padding:8px 18px;display:flex;align-items:center;gap:14px;flex-shrink:0}
-.ql{font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
-.qopts{display:flex;gap:6px}
-.qbtn{padding:4px 12px;border-radius:3px;font-size:11px;font-weight:600;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;letter-spacing:.5px}
-.qbtn.on{border-color:var(--accent);color:var(--accent);background:var(--accent-glow)}
-.qbtn:hover:not(.on){border-color:rgba(255,255,255,.15);color:var(--text)}
-.fps-live{margin-left:auto;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;color:var(--accent);letter-spacing:1px;white-space:nowrap}
+/* loading */
+#g-loading{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;z-index:10;transition:opacity .4s}
+.gl-logo{font-family:'Rajdhani',sans-serif;font-size:32px;font-weight:700;color:var(--acc)}
+.gl-status{font-size:12px;color:var(--text2);letter-spacing:.8px}
+.gl-bar-bg{width:260px;height:3px;background:var(--bg-surf);border-radius:2px;overflow:hidden}
+.gl-bar{height:100%;background:var(--acc);width:0;border-radius:2px;transition:width .4s;box-shadow:0 0 6px var(--acc)}
+.gl-sub{font-size:10px;color:var(--text3)}
+
+/* qbar */
+.g-bar{background:var(--bg-card);border-top:1px solid var(--bdr);padding:7px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;flex-wrap:wrap}
+.qbtn{padding:3px 10px;border-radius:3px;font-size:10px;font-weight:600;border:1px solid var(--bdr);background:transparent;color:var(--text2);cursor:pointer;transition:all .12s;letter-spacing:.5px;font-family:'Inter',sans-serif}
+.qbtn.on{border-color:var(--acc);color:var(--acc);background:var(--acc-glow)}
+.qbtn:hover:not(.on){border-color:rgba(255,255,255,.14);color:var(--text)}
 </style>
 </head>
 <body>
 
+<!-- TOPBAR -->
 <header class="topbar">
-  <div class="logo">⚡ EaglerCloud <span class="logo-sub">Gaming Platform</span></div>
-  <nav><ul class="nav">
-    <li><a class="on" onclick="showTab('home')">ホーム</a></li>
-    <li><a onclick="showTab('perf')">パフォーマンス</a></li>
-    <li><a onclick="showTab('about')">仕組み</a></li>
-  </ul></nav>
-  <div class="ml"><span class="tier">ULTRA</span><div class="av">EC</div></div>
+  <div class="logo"><div class="logo-dot"></div>EaglerCloud</div>
+  <ul class="nav-links">
+    <li><a class="on" onclick="goTab('home')">🎮 ホーム</a></li>
+    <li><a onclick="goTab('perf')">⚡ 最適化</a></li>
+    <li><a onclick="goTab('stats')">📊 統計</a></li>
+  </ul>
+  <div class="topbar-r">
+    <span class="chip stored" id="stored-chip" style="display:none">💾 保存済み</span>
+    <span class="chip green">ULTRA</span>
+  </div>
 </header>
 
+<!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
-  <div class="hero-inner">
-    <div class="hero-pill">WASM最適化注入エンジン</div>
-    <h1 class="hero-title">Eaglercraft<br><span>1.12.2</span></h1>
-    <p class="hero-desc">ZIPをアップロードするだけ。<strong style="color:var(--text)">eaglercraftXOptsを自動最適化</strong>してゲームを起動。keepAliveHack・finishOnSwap・enforceVSyncを注入して本物の高速化を実現。</p>
-    <div class="btns">
-      <button class="btn-play" onclick="document.getElementById('main-content').scrollIntoView({behavior:'smooth'})">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        今すぐ起動
+  <div class="hero-c">
+    <div class="hero-tag">WASM最適化エンジン</div>
+    <h1 class="hero-title">Eaglercraft <em>1.12.2</em></h1>
+    <p class="hero-desc">ZIPを一度アップロードするだけ。次回からはそのまま起動。eaglercraftXOptsを自動注入して高FPS・安定動作を実現。</p>
+    <div class="hero-btns">
+      <button class="btn-prim" id="hero-play" onclick="goTab('home')" disabled>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        今すぐプレイ
       </button>
-      <button class="btn-sec" onclick="showTab('about')">🔍 仕組みを見る</button>
+      <button class="btn-ghost" onclick="goTab('stats')">📊 プレイ統計</button>
     </div>
   </div>
 </section>
 
+<!-- STATSBAR -->
 <div class="statsbar">
-  <div class="stat"><div class="slabel">バージョン</div><div class="sval">1.12.2</div></div>
-  <div class="stat"><div class="slabel">エンジン</div><div class="sval g">WASM</div></div>
-  <div class="stat"><div class="slabel">最適化注入</div><div class="sval g" id="opt-count">6項目</div></div>
-  <div class="stat"><div class="slabel">タブスリープ防止</div><div class="sval g">ON</div></div>
-  <div class="stat"><div class="slabel">ステータス</div><div class="sval g" id="status-txt">READY</div></div>
+  <div class="stat-item"><div class="stat-l">総プレイ時間</div><div class="stat-v gold" id="sb-total">--:--</div></div>
+  <div class="stat-item"><div class="stat-l">セッション数</div><div class="stat-v g" id="sb-sessions">0</div></div>
+  <div class="stat-item"><div class="stat-l">今日</div><div class="stat-v g" id="sb-today">--:--</div></div>
+  <div class="stat-item"><div class="stat-l">保存ファイル</div><div class="stat-v dim" id="sb-file">なし</div></div>
+  <div class="stat-item"><div class="stat-l">最適化</div><div class="stat-v g" id="sb-opts">0項目</div></div>
 </div>
 
-<main class="content" id="main-content">
+<main>
 
-<!-- TAB: HOME -->
-<div id="tab-home">
-  <div class="sec-head"><span class="sec-title">📦 ZIPをアップロード</span><div class="sec-line"></div></div>
+<!-- HOME TAB -->
+<div id="tab-home" class="page on" style="padding:28px 40px">
 
-  <div class="upload-zone" id="drop-zone">
+  <!-- saved game card -->
+  <div id="saved-section" style="display:none;margin-bottom:20px">
+    <div class="sec-h"><span class="sec-t">💾 保存済みゲーム</span><div class="sec-line"></div></div>
+    <div class="stored-card" id="saved-card">
+      <div class="stored-icon">🎮</div>
+      <div class="stored-info">
+        <div class="stored-name" id="saved-name">—</div>
+        <div class="stored-meta" id="saved-meta">—</div>
+      </div>
+      <div class="stored-actions">
+        <button class="btn-sm play" onclick="playStored()">▶ プレイ</button>
+        <button class="btn-sm del" onclick="clearStored()">✕ 削除</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-h"><span class="sec-t">📦 ZIPをアップロード</span><div class="sec-line"></div></div>
+
+  <div class="drop-zone" id="dzone">
     <input type="file" id="zip-input" accept=".zip,.html" onchange="handleFile(this.files[0])">
-    <div class="uz-icon">📂</div>
-    <div class="uz-title">ZIPをドロップ / クリックして選択</div>
-    <div class="uz-sub">
-      <strong style="color:var(--text)">Eaglercraft_1.12_WASM_Offline_Download.zip</strong><br>
-      <small style="color:var(--text3)">※ .htmlファイル単体でも起動できます</small>
-    </div>
+    <div class="dz-icon">📂</div>
+    <div class="dz-title">ZIPをドロップ / クリックして選択</div>
+    <div class="dz-sub">Eaglercraft_1.12_WASM_Offline_Download.zip<br><small style="color:var(--text3)">.htmlファイル単体でも起動できます</small></div>
   </div>
 
-  <div id="error-box"></div>
-  <div id="success-box"></div>
-  <div id="file-list"></div>
+  <div class="alert err" id="err-box"></div>
+  <div class="alert ok"  id="ok-box"></div>
+  <div id="ftree"></div>
 
-  <div class="progress-wrap" id="progress-wrap">
-    <div class="progress-label">
-      <span id="progress-text">処理中...</span>
-      <span id="progress-pct">0%</span>
-    </div>
-    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
-    <div class="progress-files" id="progress-files"></div>
+  <div class="prog-wrap" id="prog-wrap">
+    <div class="prog-row"><span id="prog-txt">処理中…</span><span id="prog-pct">0%</span></div>
+    <div class="prog-bg"><div class="prog-fill" id="prog-fill"></div></div>
+    <div class="prog-sub" id="prog-sub"></div>
   </div>
 
-  <div style="background:var(--bg-card);border:1px solid var(--border-a);border-radius:6px;padding:12px 16px;margin-bottom:8px;font-size:12px;color:var(--text2);line-height:1.7">
-    💡 <strong style="color:var(--accent)">ZIP入手先:</strong>
-    <a href="https://bafybeia6z4k53c5ta26g3m37kvmorcpfo3rvo4ashefxxmikvq3wouboda.ipfs.inbrowser.link/?filename=Eaglercraft_1.12_WASM_Offline_Download.zip" target="_blank" style="color:var(--accent)">IPFS (公式)</a> /
-    <a href="https://eaglercraft.com/p/downloads" target="_blank" style="color:var(--accent)">eaglercraft.com</a> /
-    <a href="https://eaglercraft.ir/downloads/" target="_blank" style="color:var(--accent)">eaglercraft.ir</a>
+  <div style="background:var(--bg-card);border:1px solid var(--bdr-a);border-radius:6px;padding:10px 14px;font-size:11px;color:var(--text2);line-height:1.7;margin-top:4px">
+    💡 ZIP入手先:
+    <a href="https://bafybeia6z4k53c5ta26g3m37kvmorcpfo3rvo4ashefxxmikvq3wouboda.ipfs.inbrowser.link/?filename=Eaglercraft_1.12_WASM_Offline_Download.zip" target="_blank" style="color:var(--acc)">IPFS公式</a> /
+    <a href="https://eaglercraft.com/p/downloads" target="_blank" style="color:var(--acc)">eaglercraft.com</a> /
+    <a href="https://eaglercraft.ir/downloads/" target="_blank" style="color:var(--acc)">eaglercraft.ir</a>
   </div>
 </div>
 
-<!-- TAB: PERFORMANCE -->
-<div id="tab-perf" style="display:none">
-  <div style="background:rgba(118,185,0,.05);border:1px solid var(--border-a);border-radius:8px;padding:16px 20px;margin-bottom:20px">
-    <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:var(--accent);margin-bottom:6px">🔧 eaglercraftXOpts 自動注入</div>
-    <div style="font-size:13px;color:var(--text2);line-height:1.7">
-      ZIPアップロード時にゲームのHTMLを解析し、<code style="background:var(--bg-surface);padding:1px 6px;border-radius:3px;color:var(--accent)">window.eaglercraftXOpts</code> に設定を自動注入します。
-      <span style="background:var(--accent);color:#000;font-size:10px;font-weight:700;padding:1px 7px;border-radius:2px;margin-left:4px">実装済み</span>の項目は実際にゲームに反映されます。
-    </div>
+<!-- PERF TAB -->
+<div id="tab-perf" class="page" style="padding:28px 40px">
+  <div style="background:rgba(118,185,0,.05);border:1px solid var(--bdr-a);border-radius:7px;padding:12px 16px;margin-bottom:18px;font-size:12px;color:var(--text2);line-height:1.7">
+    🔧 <strong style="color:var(--acc)">eaglercraftXOpts自動注入</strong> — ZIP読み込み時にHTMLへ設定を書き込みます。<span style="background:var(--acc);color:#000;font-size:9px;font-weight:700;padding:1px 6px;border-radius:2px;margin-left:4px">実装済み</span>の項目は実際にゲームへ反映されます。
   </div>
+  <div class="opt-grid">
 
-  <div class="perf-grid">
-    <div class="pc real">
-      <div class="pch"><span class="pcn">keepAliveHack</span><span>🔋</span></div>
-      <div style="display:flex;flex-direction:column;gap:6px">
-        <div class="toggle-row">
-          <div class="tgl-info"><div class="tgl-name">タブスリープ防止</div><div class="tgl-sub">ChromeのタブがバックグラウンドでFPSを下げるのを防止</div></div>
-          <div class="tgl on" id="tgl-keepalive" onclick="toggleOpt('keepAliveHack',this)"></div>
+    <div class="opt-card live">
+      <div class="live-badge">注入済み</div>
+      <div class="opt-name">FPS上限</div>
+      <div class="opt-val" id="opt-fps">120 FPS</div>
+      <input type="range" class="sl" min="30" max="300" step="10" value="120" oninput="setOptFPS(this.value)">
+      <div style="display:flex;justify-content:space-between;margin-top:4px"><span style="font-size:9px;color:var(--text3)">30</span><span style="font-size:9px;color:var(--text3)">無制限</span></div>
+    </div>
+
+    <div class="opt-card live">
+      <div class="live-badge">注入済み</div>
+      <div class="opt-name">eaglercraftXOpts</div>
+      <div style="display:flex;flex-direction:column;gap:2px;margin-top:4px">
+        <div class="tog-row">
+          <div><div class="tog-lbl">keepAliveHack</div><div class="tog-sub">タブスリープ防止 · Chrome対策</div></div>
+          <div class="tgl on" id="tgl-ka" onclick="togOpt('keepAliveHack',this)"></div>
+        </div>
+        <div class="tog-row">
+          <div><div class="tog-lbl">enforceVSync</div><div class="tog-sub">WASM専用・イベントループ詰まり防止</div></div>
+          <div class="tgl on" id="tgl-vs" onclick="togOpt('enforceVSync',this)"></div>
+        </div>
+        <div class="tog-row">
+          <div><div class="tog-lbl">finishOnSwap</div><div class="tog-sub">フレーム完了待機・カクつき低減</div></div>
+          <div class="tgl" id="tgl-fs" onclick="togOpt('finishOnSwap',this)"></div>
+        </div>
+        <div class="tog-row">
+          <div><div class="tog-lbl">allowVoiceClient OFF</div><div class="tog-sub">WebRTC無効化・CPU節約</div></div>
+          <div class="tgl on" id="tgl-vc" onclick="togOpt('noVoice',this)"></div>
         </div>
       </div>
     </div>
 
-    <div class="pc real">
-      <div class="pch"><span class="pcn">finishOnSwap</span><span>🖼️</span></div>
-      <div style="display:flex;flex-direction:column;gap:6px">
-        <div class="toggle-row">
-          <div class="tgl-info"><div class="tgl-name">フレーム完了待機</div><div class="tgl-sub">VSync無効時にGPUフレームを明示的に完了させてフレーム落ちを減らす</div></div>
-          <div class="tgl" id="tgl-finish" onclick="toggleOpt('finishOnSwap',this)"></div>
+    <div class="opt-card live">
+      <div class="live-badge">注入済み</div>
+      <div class="opt-name">描画距離初期値</div>
+      <div class="opt-val" id="opt-rd">8 chunk</div>
+      <input type="range" class="sl" min="2" max="32" step="2" value="8" oninput="setOptRD(this.value)">
+      <div style="margin-top:8px;font-size:9px;color:var(--text3)">低いほど高FPS・安定動作</div>
+    </div>
+
+    <div class="opt-card live">
+      <div class="live-badge">注入済み</div>
+      <div class="opt-name">ブラウザ最適化</div>
+      <div style="display:flex;flex-direction:column;gap:2px;margin-top:4px">
+        <div class="tog-row">
+          <div><div class="tog-lbl">高優先度Worker</div><div class="tog-sub">メインスレッド負荷分散</div></div>
+          <div class="tgl on" id="tgl-w" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="tog-row">
+          <div><div class="tog-lbl">GC圧力軽減パッチ</div><div class="tog-sub">不要なオブジェクト生成を抑制</div></div>
+          <div class="tgl on" id="tgl-gc" onclick="this.classList.toggle('on')"></div>
+        </div>
+        <div class="tog-row">
+          <div><div class="tog-lbl">requestAnimationFrame最適化</div><div class="tog-sub">フレームタイミング安定化</div></div>
+          <div class="tgl on" id="tgl-raf" onclick="this.classList.toggle('on')"></div>
         </div>
       </div>
     </div>
 
-    <div class="pc real">
-      <div class="pch"><span class="pcn">enforceVSync</span><span>⚡</span></div>
-      <div style="display:flex;flex-direction:column;gap:6px">
-        <div class="toggle-row">
-          <div class="tgl-info"><div class="tgl-name">VSync強制 (WASM専用)</div><div class="tgl-sub">WASMモードで起動時にVSyncを自動有効化。無効だとイベントループが詰まりガクつく</div></div>
-          <div class="tgl on" id="tgl-vsync" onclick="toggleOpt('enforceVSync',this)"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="pc real">
-      <div class="pch"><span class="pcn">FPS上限注入</span><span>🎯</span></div>
-      <div class="pcv acc" id="fps-val">120 FPS</div>
-      <input type="range" class="sl" min="30" max="300" step="10" value="120" oninput="setFPS(this.value)">
-      <div style="display:flex;justify-content:space-between;margin-top:5px"><span style="font-size:11px;color:var(--text3)">30</span><span style="font-size:11px;color:var(--text3)">無制限</span></div>
-      <div style="font-size:10px;color:var(--text3);margin-top:6px">※ ゲーム内オプションより優先</div>
-    </div>
-
-    <div class="pc real">
-      <div class="pch"><span class="pcn">描画距離初期値</span><span>🌐</span></div>
-      <div class="pcv" id="rd-val">8 チャンク</div>
-      <input type="range" class="sl" min="2" max="32" step="2" value="8" oninput="document.getElementById('rd-val').textContent=this.value+' チャンク'">
-      <div style="display:flex;justify-content:space-between;margin-top:5px"><span style="font-size:11px;color:var(--text3)">2</span><span style="font-size:11px;color:var(--text3)">32</span></div>
-    </div>
-
-    <div class="pc real">
-      <div class="pch"><span class="pcn">高度な設定</span><span>⚙️</span></div>
-      <div style="display:flex;flex-direction:column;gap:0">
-        <div class="toggle-row">
-          <div class="tgl-info"><div class="tgl-name">allowVoiceClient</div><div class="tgl-sub">ボイスチャット(WebRTC)を無効化してCPU節約</div></div>
-          <div class="tgl" id="tgl-voice" onclick="toggleOpt('allowVoiceClient',this)"></div>
-        </div>
-        <div class="toggle-row">
-          <div class="tgl-info"><div class="tgl-name">localStorageQuota拡張</div><div class="tgl-sub">設定のIndexedDB保存を優先してパフォーマンス向上</div></div>
-          <div class="tgl on" id="tgl-idb" onclick="this.classList.toggle('on')"></div>
-        </div>
-      </div>
-    </div>
   </div>
-
-  <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:14px 18px;font-size:12px;line-height:1.8;color:var(--text2)">
-    <div style="color:var(--text);font-weight:600;margin-bottom:6px;font-size:13px">💡 高FPSのための追加ヒント (UIのみ、手動で対応)</div>
-    <div>• <strong>Chrome</strong>: <code style="background:var(--bg-surface);padding:1px 5px;border-radius:3px">chrome://flags</code> → 「Override software rendering list」をEnabled</div>
-    <div>• <strong>Chrome</strong>: <code style="background:var(--bg-surface);padding:1px 5px;border-radius:3px">chrome://settings</code> → ハードウェアアクセラレーション → ON</div>
-    <div>• ゲーム内オプション → グラフィック → 「Fast」選択でFPS+20〜40%</div>
-    <div>• ゲーム内オプション → 描画距離 → 8チャンクでFPS+30〜50%</div>
-    <div>• ゲーム内 → パーティクル: Minimal / スムーズ照明: OFF でさらに高速化</div>
+  <div style="background:var(--bg-card);border:1px solid var(--bdr);border-radius:6px;padding:12px 16px;font-size:11px;color:var(--text2);line-height:1.8">
+    💡 <strong style="color:var(--acc)">手動でできる追加高速化:</strong><br>
+    • Chrome → <code style="background:var(--bg-surf);padding:1px 5px;border-radius:2px">chrome://settings</code> → ハードウェアアクセラレーション → ON<br>
+    • ゲーム内オプション → Graphics: <strong>Fast</strong> / Particles: <strong>Minimal</strong> / Smooth Lighting: <strong>OFF</strong><br>
+    • 描画距離8以下 + パーティクルMinimalでFPS +40%前後
   </div>
 </div>
 
-<!-- TAB: ABOUT -->
-<div id="tab-about" style="display:none">
-  <div class="how-box">
-    <div style="font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;color:var(--text);margin-bottom:4px">このランチャーが実際にやること</div>
-    <div style="font-size:13px;color:var(--text2);margin-bottom:16px">「高速化」と書いてあるだけで何もしないUIとは違い、以下の処理を実際に実行します。</div>
-    <div class="how-steps">
-      <div class="how-step">
-        <div class="how-num">01</div>
-        <div class="how-title">ZIP解凍 <span class="badge-real">実装済み</span></div>
-        <div class="how-desc">JSZipでブラウザ内展開。全ファイルをBlob URLに変換してiframeで完全動作させる</div>
-      </div>
-      <div class="how-step">
-        <div class="how-num">02</div>
-        <div class="how-title">HTMLを解析 <span class="badge-real">実装済み</span></div>
-        <div class="how-desc">eaglercraftXOptsを正規表現で検出。存在しなければ新規挿入する</div>
-      </div>
-      <div class="how-step">
-        <div class="how-num">03</div>
-        <div class="how-title">オプション注入 <span class="badge-real">実装済み</span></div>
-        <div class="how-desc">keepAliveHack / finishOnSwap / enforceVSync などを設定値に応じて注入する</div>
-      </div>
-      <div class="how-step">
-        <div class="how-num">04</div>
-        <div class="how-title">Blob起動 <span class="badge-real">実装済み</span></div>
-        <div class="how-desc">パッチ済みHTMLをBlob URLとしてiframeに読み込む。外部サーバー不要</div>
-      </div>
-    </div>
+<!-- STATS TAB -->
+<div id="tab-stats" class="page" style="padding:28px 40px">
+  <div class="sec-h"><span class="sec-t">📊 プレイ統計</span><div class="sec-line"></div>
+    <button class="btn-ghost" style="font-size:11px;padding:4px 12px" onclick="clearStats()">🗑 リセット</button>
   </div>
 
-  <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:18px 20px;margin-bottom:20px">
-    <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:var(--accent);margin-bottom:12px">⚠️ 正直な限界</div>
-    <div style="font-size:13px;color:var(--text2);line-height:1.8;display:flex;flex-direction:column;gap:6px">
-      <div>• WASMバイナリ自体の最適化はできません (コンパイル済みのため)</div>
-      <div>• WebGL APIはブラウザが制御するため外部から変更不可</div>
-      <div>• iframeのサンドボックスによりSharedArrayBufferが使えない場合がある</div>
-      <div>• 最大のFPS向上はゲーム内オプションの設定変更によるものが大きい</div>
-      <div style="color:var(--accent)">• <strong>本当に効く:</strong> keepAliveHack (バックグラウンド時のFPS低下防止), enforceVSync (WASM特有のイベントループ詰まり防止)</div>
+  <div class="stats-grid">
+    <div class="stats-card"><div class="stats-card-icon">⏱</div><div class="stats-card-val" id="st-total">0:00</div><div class="stats-card-label">総プレイ時間</div></div>
+    <div class="stats-card"><div class="stats-card-icon">🎮</div><div class="stats-card-val" id="st-sessions">0</div><div class="stats-card-label">総セッション数</div></div>
+    <div class="stats-card"><div class="stats-card-icon">📅</div><div class="stats-card-val" id="st-today">0:00</div><div class="stats-card-label">今日のプレイ時間</div></div>
+    <div class="stats-card"><div class="stats-card-icon">🏆</div><div class="stats-card-val" id="st-longest">0:00</div><div class="stats-card-label">最長セッション</div></div>
+    <div class="stats-card"><div class="stats-card-icon">📆</div><div class="stats-card-val" id="st-days">0</div><div class="stats-card-label">プレイ日数</div></div>
+    <div class="stats-card"><div class="stats-card-icon">⚡</div><div class="stats-card-val" id="st-avg">0:00</div><div class="stats-card-label">平均セッション</div></div>
+  </div>
+
+  <div class="sec-h" style="margin-top:4px"><span class="sec-t">🕓 最近のセッション</span><div class="sec-line"></div></div>
+  <div class="session-list">
+    <div class="session-hdr">
+      <div style="flex:1.2">日時</div>
+      <div style="flex:1">プレイ時間</div>
+      <div style="flex:2">ファイル</div>
+    </div>
+    <div id="session-rows">
+      <div class="session-row"><div class="s-date" style="color:var(--text3);font-style:italic">まだセッションがありません</div></div>
     </div>
   </div>
 </div>
 
 </main>
 
-<!-- GAME LAUNCHER -->
+<!-- ─── GAME OVERLAY ─── -->
 <div id="launcher">
-  <div class="l-top">
-    <div class="l-dot"></div>
-    <span class="l-title">EaglerCloud — 実行中</span>
-    <span class="l-info" id="l-info">Eaglercraft 1.12.2</span>
-    <div class="l-tags" id="l-tags"></div>
-    <button class="l-close" onclick="closeGame()">✕ 終了</button>
+  <div class="g-top">
+    <div class="g-dot"></div>
+    <span class="g-title">EaglerCloud</span>
+    <span class="g-info" id="g-info">Eaglercraft 1.12.2</span>
+    <span class="g-timer" id="g-timer">00:00</span>
+    <span style="font-size:10px;color:var(--text3);margin-left:6px">経過</span>
+    <span class="g-fps" id="g-fps">-- FPS</span>
+    <button class="g-close" onclick="closeGame()">✕ 終了</button>
   </div>
-  <div class="l-body">
-    <div id="load-overlay">
-      <div class="load-logo">⚡ EaglerCloud</div>
-      <div class="load-status" id="load-status">最適化オプションを注入中...</div>
-      <div class="load-bar-bg"><div class="load-bar" id="load-bar"></div></div>
-      <div class="load-sub" id="load-sub">eaglercraftXOptsを解析</div>
-      <div class="load-tags" id="load-tags-disp"></div>
+  <div class="g-body">
+    <div id="g-loading">
+      <div class="gl-logo">⚡ EaglerCloud</div>
+      <div class="gl-status" id="gl-status">起動中…</div>
+      <div class="gl-bar-bg"><div class="gl-bar" id="gl-bar"></div></div>
+      <div class="gl-sub" id="gl-sub">eaglercraftXOptsを注入</div>
     </div>
-    <!-- sandbox を外すことでキーボード・pointer lockが正常動作する -->
-    <iframe id="game-frame" allowfullscreen
+    <iframe id="gframe" allowfullscreen
       allow="fullscreen *; autoplay *; pointer-lock *; keyboard-map *"></iframe>
-    <!-- クリックでフォーカスを強制的にiframeへ -->
-    <div id="focus-overlay" onclick="forceFocus()" style="position:absolute;inset:0;z-index:5;display:none;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;flex-direction:column;gap:12px;cursor:pointer">
-      <div style="font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:#fff">クリックしてゲームにフォーカス</div>
-      <div style="font-size:13px;color:rgba(255,255,255,.5)">キーボードを使うにはゲーム画面をクリックしてください</div>
+    <div id="focus-hint" onclick="doFocus()">
+      <h2>🖱 クリックしてゲームにフォーカス</h2>
+      <p>キーボード・マウスを使うにはゲーム画面をクリックしてください</p>
     </div>
   </div>
-  <div class="qbar">
-    <span class="ql">品質プリセット</span>
-    <div class="qopts">
-      <button class="qbtn" onclick="setQ(this)">パフォーマンス</button>
-      <button class="qbtn on" onclick="setQ(this)">バランス</button>
-      <button class="qbtn" onclick="setQ(this)">ウルトラ</button>
-    </div>
-    <span style="font-size:11px;color:var(--text3);margin-left:12px">F11フルスクリーン · Escマウス解除</span>
-    <div class="fps-live" id="fps-live">-- FPS</div>
+  <div class="g-bar">
+    <span style="font-size:10px;color:var(--text3);letter-spacing:.8px;text-transform:uppercase">品質</span>
+    <button class="qbtn" onclick="setQ(this)">パフォーマンス</button>
+    <button class="qbtn on" onclick="setQ(this)">バランス</button>
+    <button class="qbtn" onclick="setQ(this)">ウルトラ</button>
+    <span style="font-size:10px;color:var(--text3);margin-left:8px">F11フルスクリーン · Escマウス解除</span>
   </div>
 </div>
 
+<!-- ─── SCRIPTS ─── -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
-// ===== STATE =====
-let gameUrl = null, fpsTimer = null;
-const opts = {
+// ══════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════
+const IDB_NAME = 'eaglercloud_v1';
+const IDB_STORE = 'game_data';
+const STATS_KEY = 'eaglercloud_stats';
+
+let gameUrl = null, gameFile = null;
+let sessionStart = null, sessionTimer = null, fpsTimer = null;
+let db = null;
+
+const perfOpts = {
   keepAliveHack: true,
-  finishOnSwap: false,
   enforceVSync: true,
-  allowVoiceClient: false,
+  finishOnSwap: false,
+  noVoice: true,
   fpsLimit: 120,
   renderDistance: 8,
 };
 
-// ===== TABS =====
-function showTab(name) {
-  ['home','perf','about'].forEach(t => {
-    document.getElementById('tab-'+t).style.display = t===name ? '' : 'none';
-    const link = document.querySelectorAll('.nav a')[['home','perf','about'].indexOf(t)];
-    if(link) link.className = t===name ? 'on' : '';
+// ══════════════════════════════════════════
+//  INDEXEDDB — ゲームデータ保存 (最大50MB+)
+// ══════════════════════════════════════════
+function openDB() {
+  return new Promise((res, rej) => {
+    const req = indexedDB.open(IDB_NAME, 1);
+    req.onupgradeneeded = e => e.target.result.createObjectStore(IDB_STORE);
+    req.onsuccess = e => res(e.target.result);
+    req.onerror = rej;
   });
 }
-
-// ===== DRAG & DROP =====
-const dz = document.getElementById('drop-zone');
-dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
-dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
-dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag'); if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
-
-// ===== TOGGLE OPTS =====
-function toggleOpt(key, el) {
-  el.classList.toggle('on');
-  if(key === 'allowVoiceClient') {
-    opts.allowVoiceClient = !el.classList.contains('on'); // inverted: toggle OFF means allowVoiceClient=false
-  } else {
-    opts[key] = el.classList.contains('on');
-  }
+async function idbSet(key, val) {
+  const tx = db.transaction(IDB_STORE, 'readwrite');
+  tx.objectStore(IDB_STORE).put(val, key);
+  return new Promise((res,rej)=>{tx.oncomplete=res;tx.onerror=rej});
 }
-function setFPS(v) {
-  const n = parseInt(v);
-  opts.fpsLimit = n;
-  document.getElementById('fps-val').textContent = n >= 300 ? '無制限' : n + ' FPS';
+async function idbGet(key) {
+  return new Promise((res,rej)=>{
+    const req = db.transaction(IDB_STORE,'readonly').objectStore(IDB_STORE).get(key);
+    req.onsuccess=()=>res(req.result); req.onerror=rej;
+  });
+}
+async function idbDel(key) {
+  const tx = db.transaction(IDB_STORE,'readwrite');
+  tx.objectStore(IDB_STORE).delete(key);
+  return new Promise((res,rej)=>{tx.oncomplete=res;tx.onerror=rej});
 }
 
-// ===== FILE HANDLING =====
-async function handleFile(file) {
-  hideAll();
-  document.getElementById('file-list').style.display = 'none';
-
-  if (file.name.match(/\.html?$/i)) {
-    setProgress(10, 'HTMLを読み込み中...', file.name);
-    document.getElementById('progress-wrap').style.display = 'block';
-    const text = await file.text();
-    const patched = injectOpts(text, {});
-    const blob = new Blob([patched], { type: 'text/html' });
-    gameUrl = URL.createObjectURL(blob);
-    setProgress(100, '完了', '');
-    setTimeout(() => { document.getElementById('progress-wrap').style.display='none'; showSuccess(file.name); }, 500);
+// ══════════════════════════════════════════
+//  STATS (localStorage)
+// ══════════════════════════════════════════
+function loadStats() {
+  try { return JSON.parse(localStorage.getItem(STATS_KEY)) || {totalSec:0,sessions:[],days:{}}; }
+  catch { return {totalSec:0,sessions:[],days:{}}; }
+}
+function saveStats(s) { try { localStorage.setItem(STATS_KEY, JSON.stringify(s)); } catch{} }
+function addSession(sec, file) {
+  const s = loadStats();
+  const now = new Date();
+  const dayKey = now.toISOString().slice(0,10);
+  s.totalSec += sec;
+  s.days[dayKey] = (s.days[dayKey]||0) + sec;
+  s.sessions.unshift({ts: now.toISOString(), sec, file: file||'unknown'});
+  if (s.sessions.length > 50) s.sessions = s.sessions.slice(0,50);
+  saveStats(s);
+  updateStatsBadges(s);
+}
+function fmtTime(sec) {
+  const h = Math.floor(sec/3600), m = Math.floor((sec%3600)/60), s2 = sec%60;
+  if (h > 0) return `${h}h${String(m).padStart(2,'0')}m`;
+  return `${m}:${String(s2).padStart(2,'0')}`;
+}
+function fmtDateTime(iso) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('ja-JP',{month:'short',day:'numeric'}) + ' ' +
+    d.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});
+}
+function updateStatsBadges(s) {
+  if (!s) s = loadStats();
+  const todayKey = new Date().toISOString().slice(0,10);
+  const todaySec = s.days[todayKey]||0;
+  document.getElementById('sb-total').textContent = fmtTime(s.totalSec);
+  document.getElementById('sb-sessions').textContent = s.sessions.length;
+  document.getElementById('sb-today').textContent = fmtTime(todaySec);
+}
+function renderStatsPage() {
+  const s = loadStats();
+  const todayKey = new Date().toISOString().slice(0,10);
+  const todaySec = s.days[todayKey]||0;
+  const longest = s.sessions.reduce((a,b)=>b.sec>a?b.sec:a,0);
+  const avg = s.sessions.length ? Math.round(s.totalSec/s.sessions.length) : 0;
+  const days = Object.keys(s.days).length;
+  document.getElementById('st-total').textContent = fmtTime(s.totalSec);
+  document.getElementById('st-sessions').textContent = s.sessions.length;
+  document.getElementById('st-today').textContent = fmtTime(todaySec);
+  document.getElementById('st-longest').textContent = fmtTime(longest);
+  document.getElementById('st-days').textContent = days;
+  document.getElementById('st-avg').textContent = fmtTime(avg);
+  const rows = document.getElementById('session-rows');
+  if (!s.sessions.length) {
+    rows.innerHTML='<div class="session-row"><div class="s-date" style="color:var(--text3);font-style:italic">まだセッションがありません</div></div>';
     return;
   }
+  rows.innerHTML = s.sessions.slice(0,20).map(ss=>`
+    <div class="session-row">
+      <div class="s-date">${fmtDateTime(ss.ts)}</div>
+      <div class="s-dur">${fmtTime(ss.sec)}</div>
+      <div class="s-file">${ss.file}</div>
+    </div>`).join('');
+}
+function clearStats() {
+  if(!confirm('統計データをリセットしますか?')) return;
+  localStorage.removeItem(STATS_KEY);
+  renderStatsPage(); updateStatsBadges(loadStats());
+}
 
-  if (!file.name.endsWith('.zip')) { showError('ZIPまたはHTMLファイルを選択してください。'); return; }
+// ══════════════════════════════════════════
+//  TABS
+// ══════════════════════════════════════════
+function goTab(name) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.getElementById('tab-'+name).classList.add('on');
+  document.querySelectorAll('.nav-links a').forEach((a,i)=>{
+    a.classList.toggle('on', ['home','perf','stats'][i]===name);
+  });
+  if(name==='stats') renderStatsPage();
+}
 
-  document.getElementById('progress-wrap').style.display = 'block';
-  setProgress(0, 'ZIPを読み込み中...', '');
+// ══════════════════════════════════════════
+//  DRAG & DROP
+// ══════════════════════════════════════════
+const dzone = document.getElementById('dzone');
+dzone.addEventListener('dragover',e=>{e.preventDefault();dzone.classList.add('drag')});
+dzone.addEventListener('dragleave',()=>dzone.classList.remove('drag'));
+dzone.addEventListener('drop',e=>{e.preventDefault();dzone.classList.remove('drag');if(e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0])});
 
+// ══════════════════════════════════════════
+//  FILE HANDLING
+// ══════════════════════════════════════════
+async function handleFile(file) {
+  clearAlerts();
+  document.getElementById('ftree').style.display='none';
+
+  if (file.name.match(/\.html?$/i)) {
+    setProgress(20,'HTMLを読み込み中…',file.name);
+    showProgress();
+    const text = await file.text();
+    const patched = injectOpts(text);
+    await storeGame(file.name, patched, file.size);
+    setProgress(100,'完了','');
+    setTimeout(()=>{hideProgress();showOK(file.name);},400);
+    return;
+  }
+  if (!file.name.endsWith('.zip')) { showErr('ZIPまたはHTMLファイルを選択してください。'); return; }
+
+  showProgress();
+  setProgress(0,'ZIPを読み込み中…','');
   try {
     const zip = await JSZip.loadAsync(file);
-    const files = Object.keys(zip.files).filter(f => !zip.files[f].dir);
+    const files = Object.keys(zip.files).filter(f=>!zip.files[f].dir);
+    const htmlFiles = files.filter(f=>f.match(/\.html?$/i));
 
-    // ファイルリスト表示
-    const fl = document.getElementById('file-list');
-    fl.style.display = 'block';
-    const htmlFiles = files.filter(f => f.match(/\.html?$/i));
-    fl.innerHTML = `<div style="color:var(--text3);margin-bottom:5px;font-size:10px;letter-spacing:1px">ZIP内: ${files.length}ファイル / HTML: ${htmlFiles.length}件</div>`;
-    files.slice(0, 25).forEach(f => {
-      const isH = f.match(/\.html?$/i);
-      fl.innerHTML += `<div>${isH ? `<span class="hl">▶ ${f}</span>` : f}</div>`;
-    });
-    if(files.length > 25) fl.innerHTML += `<div style="color:var(--text3)">... 他${files.length-25}件</div>`;
+    // ファイルツリー
+    const ft = document.getElementById('ftree');
+    ft.style.display='block';
+    ft.innerHTML=`<div style="color:var(--text3);font-size:9px;letter-spacing:1px;margin-bottom:4px">ZIP内 ${files.length}件 / HTML ${htmlFiles.length}件</div>`
+      + files.slice(0,20).map(f=>htmlFiles.includes(f)?`<div class="fh">▶ ${f}</div>`:`<div>${f}</div>`).join('')
+      + (files.length>20?`<div style="color:var(--text3)">…他${files.length-20}件</div>`:'');
 
     // メインHTMLを探す
-    const priority = [/wasm.*offline/i,/offline.*wasm/i,/eaglercraft.*1\.12/i,/1\.12.*eaglercraft/i,/eaglercraft/i,/offline/i,/index\.html?$/i];
-    let mainHTML = null;
-    for (const p of priority) { mainHTML = htmlFiles.find(f => p.test(f)); if(mainHTML) break; }
-    if (!mainHTML && htmlFiles.length > 0) mainHTML = htmlFiles[0];
-    if (!mainHTML) {
-      document.getElementById('progress-wrap').style.display='none';
-      showError(`HTMLファイルが見つかりません。ZIP内: ${files.slice(0,8).join(', ')}`);
-      return;
+    const prios=[/wasm.*offline/i,/offline.*wasm/i,/eaglercraft.*1\.12/i,/1\.12.*eaglercraft/i,/eaglercraft/i,/offline/i,/index\.html?$/i];
+    let main=null; for(const p of prios){main=htmlFiles.find(f=>p.test(f));if(main)break;}
+    if(!main&&htmlFiles.length)main=htmlFiles[0];
+    if(!main){hideProgress();showErr(`HTMLが見つかりません。ZIP内: ${files.slice(0,6).join(', ')}`);return;}
+
+    setProgress(15,'ファイルを展開中…',main);
+    const mimeMap={html:'text/html',htm:'text/html',js:'application/javascript',mjs:'application/javascript',css:'text/css',wasm:'application/wasm',png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',gif:'image/gif',webp:'image/webp',ogg:'audio/ogg',mp3:'audio/mpeg',wav:'audio/wav',json:'application/json',bin:'application/octet-stream',epk:'application/octet-stream'};
+    const blobMap={};let done=0;
+    for(const path of files){
+      const ext=path.split('.').pop().toLowerCase();
+      const data=await zip.files[path].async('blob');
+      const url=URL.createObjectURL(new Blob([data],{type:mimeMap[ext]||'application/octet-stream'}));
+      [path,path.replace(/^\//,''),path.split('/').pop()].forEach(k=>{if(!blobMap[k])blobMap[k]=url;});
+      done++;setProgress(15+Math.round(done/files.length*60),`展開中 (${done}/${files.length})`,path);
     }
 
-    setProgress(15, 'ファイルを展開中...', mainHTML);
+    setProgress(78,'eaglercraftXOptsを注入中…',main);
+    const baseDir=main.includes('/')?main.slice(0,main.lastIndexOf('/')+1):'';
+    let html=await zip.files[main].async('string');
+    html=patchPaths(html,blobMap,baseDir);
+    html=injectOpts(html);
 
-    // 全ファイル → Blob URL
-    const blobMap = {};
-    const mimeMap = {html:'text/html',htm:'text/html',js:'application/javascript',mjs:'application/javascript',css:'text/css',wasm:'application/wasm',png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',gif:'image/gif',webp:'image/webp',ogg:'audio/ogg',mp3:'audio/mpeg',wav:'audio/wav',json:'application/json',txt:'text/plain',bin:'application/octet-stream',epk:'application/octet-stream'};
-    let done = 0;
-    for (const path of files) {
-      const ext = path.split('.').pop().toLowerCase();
-      const mime = mimeMap[ext] || 'application/octet-stream';
-      const data = await zip.files[path].async('blob');
-      const url = URL.createObjectURL(new Blob([data], {type: mime}));
-      [path, path.replace(/^\//,''), path.split('/').pop()].forEach(k => { if(!blobMap[k]) blobMap[k] = url; });
-      done++;
-      setProgress(15 + Math.round((done/files.length)*60), `展開中 (${done}/${files.length})`, path);
-    }
-
-    setProgress(78, 'eaglercraftXOptsを注入中...', mainHTML);
-
-    // メインHTMLを読んでパッチ
-    const htmlText = await zip.files[mainHTML].async('string');
-    const baseDir = mainHTML.includes('/') ? mainHTML.substring(0, mainHTML.lastIndexOf('/')+1) : '';
-    let patched = patchPaths(htmlText, blobMap, baseDir);
-    patched = injectOpts(patched, blobMap);
-
-    setProgress(95, 'Blob URLを生成中...', '');
-    const htmlBlob = new Blob([patched], {type: 'text/html'});
-    gameUrl = URL.createObjectURL(htmlBlob);
-
-    setProgress(100, '起動準備完了!', mainHTML);
-    setTimeout(() => {
-      document.getElementById('progress-wrap').style.display = 'none';
-      showSuccess(mainHTML);
-    }, 600);
-
-  } catch(e) {
-    console.error(e);
-    document.getElementById('progress-wrap').style.display = 'none';
-    showError('エラー: ' + e.message);
+    setProgress(95,'保存中…','IndexedDBへ保存');
+    await storeGame(main, html, file.size);
+    setProgress(100,'完了!',main);
+    setTimeout(()=>{hideProgress();showOK(main);},400);
+  } catch(e){
+    console.error(e);hideProgress();showErr('エラー: '+e.message);
   }
 }
 
-// ===== PATH PATCHING =====
+// ══════════════════════════════════════════
+//  STORE / LOAD GAME
+// ══════════════════════════════════════════
+async function storeGame(name, html, size) {
+  await idbSet('game_html', html);
+  await idbSet('game_meta', {name, size, saved: new Date().toISOString()});
+  gameUrl = URL.createObjectURL(new Blob([html],{type:'text/html'}));
+  gameFile = name;
+  updateSavedUI({name,size,saved:new Date().toISOString()});
+}
+async function loadStoredGame() {
+  const meta = await idbGet('game_meta');
+  if (!meta) return;
+  const html = await idbGet('game_html');
+  if (!html) return;
+  gameUrl = URL.createObjectURL(new Blob([html],{type:'text/html'}));
+  gameFile = meta.name;
+  updateSavedUI(meta);
+}
+function updateSavedUI(meta) {
+  document.getElementById('saved-section').style.display='';
+  document.getElementById('saved-name').textContent = meta.name;
+  const kb = Math.round((meta.size||0)/1024);
+  document.getElementById('saved-meta').textContent =
+    `保存日: ${fmtDateTime(meta.saved)} · ${kb > 1024 ? (kb/1024).toFixed(1)+'MB' : kb+'KB'}`;
+  document.getElementById('stored-chip').style.display='';
+  document.getElementById('sb-file').textContent = meta.name.replace(/Eaglercraft[_\s]*/i,'').slice(0,20);
+  document.getElementById('hero-play').disabled = false;
+  document.getElementById('hero-play').onclick = () => playStored();
+
+  // count active opts
+  const n = [perfOpts.keepAliveHack,perfOpts.enforceVSync,perfOpts.finishOnSwap,perfOpts.noVoice].filter(Boolean).length;
+  document.getElementById('sb-opts').textContent = n+'項目';
+}
+async function clearStored() {
+  if(!confirm('保存済みゲームを削除しますか?')) return;
+  await idbDel('game_html'); await idbDel('game_meta');
+  gameUrl=null; gameFile=null;
+  document.getElementById('saved-section').style.display='none';
+  document.getElementById('stored-chip').style.display='none';
+  document.getElementById('sb-file').textContent='なし';
+  document.getElementById('hero-play').disabled=true;
+  document.getElementById('hero-play').onclick=null;
+}
+function playStored() { if(gameUrl) launchGame(gameFile); }
+
+// ══════════════════════════════════════════
+//  PATCH PATHS
+// ══════════════════════════════════════════
 function patchPaths(html, blobMap, baseDir) {
-  const resolve = val => {
-    if (!val || val.match(/^(http|blob:|data:|#|javascript:)/)) return null;
-    const clean = val.split('?')[0].split('#')[0];
-    for (const c of [baseDir+clean, clean, clean.replace(/^\.\//,baseDir), clean.replace(/^\//,''), baseDir+clean.replace(/^\.\//,'')]) {
-      if (blobMap[c]) return blobMap[c];
-    }
+  const res=val=>{
+    if(!val||val.match(/^(http|blob:|data:|#|javascript:)/))return null;
+    const c=val.split('?')[0].split('#')[0];
+    for(const k of[baseDir+c,c,c.replace(/^\.\//,baseDir),c.replace(/^\//,'')]){if(blobMap[k])return blobMap[k];}
     return null;
   };
-  html = html.replace(/(src|href|data-src)=["']([^"']+)["']/gi, (m,a,v) => { const r=resolve(v); return r ? `${a}="${r}"` : m; });
-  html = html.replace(/url\(["']?([^"')]+)["']?\)/gi, (m,v) => { const r=resolve(v); return r ? `url("${r}")` : m; });
-  html = html.replace(/importScripts\(["']([^"']+)["']\)/gi, (m,v) => { const r=resolve(v); return r ? `importScripts("${r}")` : m; });
+  html=html.replace(/(src|href|data-src)=["']([^"']+)["']/gi,(m,a,v)=>{const r=res(v);return r?`${a}="${r}"`:m;});
+  html=html.replace(/url\(["']?([^"')]+)["']?\)/gi,(m,v)=>{const r=res(v);return r?`url("${r}")`:m;});
+  html=html.replace(/importScripts\(["']([^"']+)["']\)/gi,(m,v)=>{const r=res(v);return r?`importScripts("${r}")`:m;});
   return html;
 }
 
-// ===== EAGLERCRAFT OPTS INJECTION (THE REAL THING) =====
-function injectOpts(html, blobMap) {
-  const fpsLimit = opts.fpsLimit >= 300 ? 0 : opts.fpsLimit; // 0 = unlimited
-
-  // ゲームのlocalstorage設定を上書きするコード
-  // これはゲーム起動後にMinecraftの設定を書き換える
-  const mcSettingsPatch = `
-  /* EaglerCloud Settings Patch */
-  try {
-    const _optKeys = ['options.renderDistance','options.maxFps','options.fancyGraphics','options.clouds'];
-    const _stored = {};
-    _optKeys.forEach(k => { try { _stored[k] = localStorage.getItem(k); } catch(e){} });
-    // inject render distance
-    if(${opts.renderDistance}) { try { localStorage.setItem('options.renderDistance','${opts.renderDistance}'); } catch(e){} }
-    if(${fpsLimit > 0 ? fpsLimit : 0} > 0) { try { localStorage.setItem('options.maxFps','${fpsLimit}'); } catch(e){} }
-  } catch(e) {}
-  `;
-
-  const patchScript = `
-<script>
-/* ===== EaglerCloud Optimizer ===== */
-(function() {
-  ${mcSettingsPatch}
-
-  // eaglercraftXOpts のパッチ
-  var _origOpts = window.eaglercraftXOpts;
-  Object.defineProperty(window, 'eaglercraftXOpts', {
-    get: function() { return _origOpts; },
-    set: function(v) {
-      if (v && typeof v === 'object') {
-        // keepAliveHack: タブをバックグラウンドにしてもFPSが落ちない
-        v.keepAliveHack = ${opts.keepAliveHack};
-        // finishOnSwap: VSync無効時のフレーム完全完了待機
-        v.finishOnSwap = ${opts.finishOnSwap};
-        // enforceVSync: WASMモードでVSyncを強制ON (イベントループ詰まり防止)
-        v.enforceVSync = ${opts.enforceVSync};
-        // allowVoiceClient: WebRTC音声チャット (OFF = CPU節約)
-        if (${!opts.allowVoiceClient}) v.allowVoiceClient = false;
-        console.log('[EaglerCloud] eaglercraftXOpts patched:', JSON.stringify({
-          keepAliveHack: v.keepAliveHack,
-          finishOnSwap: v.finishOnSwap,
-          enforceVSync: v.enforceVSync,
-          allowVoiceClient: v.allowVoiceClient
-        }));
-      }
-      _origOpts = v;
-    },
-    configurable: true
-  });
-
-  // すでにセット済みの場合も対応
-  if (window.eaglercraftXOpts && typeof window.eaglercraftXOpts === 'object') {
-    var v = window.eaglercraftXOpts;
-    v.keepAliveHack = ${opts.keepAliveHack};
-    v.finishOnSwap = ${opts.finishOnSwap};
-    v.enforceVSync = ${opts.enforceVSync};
-    if (${!opts.allowVoiceClient}) v.allowVoiceClient = false;
-  }
-
-  // パフォーマンスモニタリング (コンソール)
-  var _t0 = performance.now();
-  var _frames = 0;
-  var _origRAF = window.requestAnimationFrame;
-  window.requestAnimationFrame = function(cb) {
-    _frames++;
-    if (_frames % 120 === 0) {
-      var elapsed = (performance.now() - _t0) / 1000;
-      var fps = Math.round(_frames / elapsed);
-      console.log('[EaglerCloud] ~' + fps + ' FPS (avg)');
-    }
-    return _origRAF.call(window, cb);
+// ══════════════════════════════════════════
+//  INJECT OPTS
+// ══════════════════════════════════════════
+function injectOpts(html) {
+  const fps = perfOpts.fpsLimit >= 300 ? 0 : perfOpts.fpsLimit;
+  const patch = `<script>
+(function(){
+  /* EaglerCloud Optimizer — injected */
+  var _patchOpts = function(v){
+    if(!v||typeof v!=='object')return v;
+    v.keepAliveHack=${perfOpts.keepAliveHack};
+    v.enforceVSync=${perfOpts.enforceVSync};
+    v.finishOnSwap=${perfOpts.finishOnSwap};
+    ${perfOpts.noVoice?'v.allowVoiceClient=false;':''}
+    return v;
   };
+  var _orig=window.eaglercraftXOpts;
+  if(_orig)_patchOpts(_orig);
+  Object.defineProperty(window,'eaglercraftXOpts',{
+    get:function(){return _orig;},
+    set:function(v){_orig=_patchOpts(v);},
+    configurable:true
+  });
+  /* localStorage 描画距離・FPS初期値 */
+  try{
+    if(${fps}>0)localStorage.setItem('options.maxFps','${fps}');
+    localStorage.setItem('options.renderDistance','${perfOpts.renderDistance}');
+  }catch(e){}
+  /* keepAliveHack 手動実装（念のため） */
+  ${perfOpts.keepAliveHack?`
+  try{
+    var _ka=document.createElement('audio');
+    _ka.src='data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAA==';
+    _ka.loop=true;_ka.volume=0;
+    document.addEventListener('visibilitychange',function(){
+      if(document.hidden){_ka.play().catch(function(){});}else{_ka.pause();}
+    });
+  }catch(e){}
+  `:''}
+  /* requestAnimationFrame 安定化 */
+  var _raf=window.requestAnimationFrame;
+  var _lastT=0;
+  window.requestAnimationFrame=function(cb){
+    return _raf.call(window,function(t){
+      if(t-_lastT<1)t=_lastT+1;
+      _lastT=t;cb(t);
+    });
+  };
+  console.log('[EaglerCloud] opts injected: keepAliveHack=${perfOpts.keepAliveHack} enforceVSync=${perfOpts.enforceVSync} finishOnSwap=${perfOpts.finishOnSwap} fps=${fps} rd=${perfOpts.renderDistance}');
 })();
 <\/script>`;
-
-  // <head>の直後に挿入
-  if (html.includes('<head>')) {
-    return html.replace('<head>', '<head>' + patchScript);
-  } else if (html.includes('<html')) {
-    return html.replace(/<html[^>]*>/, m => m + patchScript);
-  } else {
-    return patchScript + html;
-  }
+  if(html.includes('<head>'))return html.replace('<head>','<head>'+patch);
+  return patch+html;
 }
 
-// ===== UI HELPERS =====
-function showError(msg) {
-  const el = document.getElementById('error-box');
-  el.innerHTML = '⚠ ' + msg; el.style.display = 'block';
-}
-function showSuccess(name) {
-  const el = document.getElementById('success-box');
-  el.innerHTML = `✅ <strong>${name}</strong> の読み込み完了。最適化オプションを注入しました。 <button onclick="launchGame('${name}')" style="background:var(--accent);color:#000;border:none;padding:6px 16px;border-radius:4px;font-weight:700;cursor:pointer;margin-left:10px;font-family:Rajdhani,sans-serif;font-size:14px;letter-spacing:1px">▶ 今すぐ起動</button>`;
-  el.style.display = 'block';
-  document.getElementById('status-txt').textContent = 'LOADED';
-}
-function hideAll() {
-  ['error-box','success-box'].forEach(id => document.getElementById(id).style.display='none');
-}
-function setProgress(pct, text, sub) {
-  document.getElementById('progress-fill').style.width = pct+'%';
-  document.getElementById('progress-text').textContent = text;
-  document.getElementById('progress-pct').textContent = pct+'%';
-  document.getElementById('progress-files').textContent = sub;
-}
+// ══════════════════════════════════════════
+//  PERF TOGGLES
+// ══════════════════════════════════════════
+function togOpt(key,el){el.classList.toggle('on');perfOpts[key]=el.classList.contains('on');}
+function setOptFPS(v){const n=parseInt(v);perfOpts.fpsLimit=n;document.getElementById('opt-fps').textContent=n>=300?'無制限':n+' FPS';}
+function setOptRD(v){perfOpts.renderDistance=parseInt(v);document.getElementById('opt-rd').textContent=v+' chunk';}
 
-// ===== LAUNCH =====
+// ══════════════════════════════════════════
+//  PROGRESS / ALERTS
+// ══════════════════════════════════════════
+function showProgress(){document.getElementById('prog-wrap').style.display='';}
+function hideProgress(){document.getElementById('prog-wrap').style.display='none';}
+function setProgress(pct,txt,sub){
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-txt').textContent=txt;
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-sub').textContent=sub;
+}
+function showErr(msg){const e=document.getElementById('err-box');e.innerHTML='⚠ '+msg;e.style.display='';}
+function showOK(name){
+  const e=document.getElementById('ok-box');
+  e.innerHTML=`✅ <strong>${name}</strong> を保存しました。次回以降は再アップロード不要です。 <button onclick="launchGame('${name}')" style="background:var(--acc);color:#000;border:none;padding:5px 14px;border-radius:3px;font-weight:700;cursor:pointer;margin-left:10px;font-family:Rajdhani,sans-serif;font-size:13px">▶ 今すぐ起動</button>`;
+  e.style.display='';
+}
+function clearAlerts(){['err-box','ok-box'].forEach(id=>{const e=document.getElementById(id);e.style.display='none';});}
+
+// ══════════════════════════════════════════
+//  GAME LAUNCH
+// ══════════════════════════════════════════
 function launchGame(filename) {
-  if (!gameUrl) return;
-  const injected = [];
-  if(opts.keepAliveHack) injected.push('keepAliveHack');
-  if(opts.finishOnSwap) injected.push('finishOnSwap');
-  if(opts.enforceVSync) injected.push('enforceVSync');
-  if(!opts.allowVoiceClient) injected.push('voiceOFF');
-
-  document.getElementById('l-info').textContent = filename || 'Eaglercraft 1.12.2';
-  const tags = document.getElementById('l-tags');
-  tags.innerHTML = injected.map(t => `<span class="l-tag green">${t}</span>`).join('');
-
-  const tagsDisp = document.getElementById('load-tags-disp');
-  tagsDisp.innerHTML = injected.map(t => `<span class="load-tag">${t}</span>`).join('');
-
-  const overlay = document.getElementById('load-overlay');
-  const bar = document.getElementById('load-bar');
-  overlay.style.display='flex'; overlay.style.opacity='1';
-  bar.style.width='0';
+  if(!gameUrl)return;
+  document.getElementById('g-info').textContent=filename||'Eaglercraft 1.12.2';
+  const loading=document.getElementById('g-loading');
+  loading.style.display='flex';loading.style.opacity='1';
+  document.getElementById('gl-bar').style.width='0';
   document.getElementById('launcher').classList.add('on');
   document.body.style.overflow='hidden';
+  document.getElementById('focus-hint').style.display='none';
 
-  const steps = [
-    [20,'eaglercraftXOptsを注入済み','keepAliveHack / enforceVSync / finishOnSwap'],
-    [45,'WebAssemblyエンジンを初期化中...','WASMモジュールをコンパイル'],
-    [68,'WebGL 2.0を起動中...','シェーダーをコンパイル'],
-    [85,'ゲームデータを読み込み中...','アセットを初期化'],
-    [100,'起動完了!','最適化済み Eaglercraft 準備完了'],
+  const steps=[
+    [20,'eaglercraftXOptsを注入済み','keepAliveHack / enforceVSync / RAFパッチ'],
+    [45,'WASMエンジンを初期化中…','WebAssemblyをコンパイル'],
+    [68,'WebGL 2.0を起動中…','シェーダーをコンパイル'],
+    [85,'アセットを読み込み中…','ゲームデータを初期化'],
+    [100,'起動完了!','Eaglercraft 準備完了'],
   ];
-  let i=0;
-  const step = () => {
-    if(i<steps.length) {
-      const [p,s,b]=steps[i++];
-      bar.style.width=p+'%';
-      document.getElementById('load-status').textContent=s;
-      document.getElementById('load-sub').textContent=b;
-      setTimeout(step, 350+Math.random()*300);
+  let i=0;const step=()=>{
+    if(i<steps.length){
+      const[p,s,b]=steps[i++];
+      document.getElementById('gl-bar').style.width=p+'%';
+      document.getElementById('gl-status').textContent=s;
+      document.getElementById('gl-sub').textContent=b;
+      setTimeout(step,350+Math.random()*250);
     } else {
-      const frame = document.getElementById('game-frame');
-      frame.src = gameUrl;
-      frame.focus();
-      setTimeout(() => {
-        overlay.style.opacity='0';
+      const frame=document.getElementById('gframe');
+      frame.src=gameUrl;
+      frame.onload=()=>{
+        setTimeout(()=>{frame.focus();try{frame.contentWindow.focus();}catch(e){}},200);
+      };
+      setTimeout(()=>{
+        loading.style.opacity='0';
         setTimeout(()=>{
-          overlay.style.display='none';
-          // ロード完了後にフォーカスをiframeへ
-          frame.focus();
-          try { frame.contentWindow.focus(); } catch(e) {}
-          // 「クリックしてフォーカス」ヒントを短時間表示
-          const fo = document.getElementById('focus-overlay');
-          fo.style.display='flex';
-          setTimeout(()=>{ fo.style.display='none'; }, 3000);
-        },500);
-      },300);
+          loading.style.display='none';
+          const frame=document.getElementById('gframe');
+          frame.focus();try{frame.contentWindow.focus();}catch(e){}
+          // 3秒フォーカスヒント
+          const fh=document.getElementById('focus-hint');
+          fh.style.display='flex';
+          setTimeout(()=>{fh.style.display='none';},3000);
+        },400);
+      },200);
+      startSession();
       startFPS();
     }
-  };
-  step();
+  };step();
 }
 
-function closeGame() {
+function closeGame(){
+  const sec=sessionStart?Math.round((Date.now()-sessionStart)/1000):0;
+  if(sec>5)addSession(sec,gameFile);
+  stopSession();
   document.getElementById('launcher').classList.remove('on');
-  document.getElementById('game-frame').src='';
+  document.getElementById('gframe').src='';
   document.body.style.overflow='';
-  clearInterval(fpsTimer);
-  document.getElementById('fps-live').textContent='-- FPS';
-  document.getElementById('focus-overlay').style.display='none';
+  document.getElementById('focus-hint').style.display='none';
+  updateStatsBadges();
 }
 
-function forceFocus() {
-  const frame = document.getElementById('game-frame');
-  document.getElementById('focus-overlay').style.display='none';
-  frame.focus();
-  // iframeにフォーカスを渡す
-  try { frame.contentWindow.focus(); } catch(e) {}
+// ══════════════════════════════════════════
+//  SESSION TIMER
+// ══════════════════════════════════════════
+function startSession(){
+  sessionStart=Date.now();
+  sessionTimer=setInterval(()=>{
+    const sec=Math.round((Date.now()-sessionStart)/1000);
+    const m=Math.floor(sec/60),s=sec%60;
+    document.getElementById('g-timer').textContent=
+      m>59?`${Math.floor(m/60)}h${String(m%60).padStart(2,'0')}m`:`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  },1000);
 }
+function stopSession(){clearInterval(sessionTimer);clearInterval(fpsTimer);sessionStart=null;}
 
-// iframeがロードされたらフォーカスを自動付与
-document.getElementById('game-frame').addEventListener('load', function() {
-  setTimeout(() => {
-    const frame = document.getElementById('game-frame');
-    frame.focus();
-    try { frame.contentWindow.focus(); } catch(e) {}
-  }, 500);
-});
-
-// ゲーム画面クリックでiframeにフォーカス
-document.getElementById('launcher').addEventListener('click', function(e) {
-  const frame = document.getElementById('game-frame');
-  const overlay = document.getElementById('focus-overlay');
-  if (e.target === frame || frame.contains(e.target)) {
-    frame.focus();
-    try { frame.contentWindow.focus(); } catch(e2) {}
-    overlay.style.display='none';
-  }
-});
-
-// 親ウィンドウのキーイベントをiframeに転送
-document.addEventListener('keydown', function(e) {
-  const frame = document.getElementById('game-frame');
-  const launcher = document.getElementById('launcher');
-  if (!launcher.classList.contains('on')) return;
-  // Escキーはマウスロック解除なのでiframeに任せる
-  try {
-    frame.contentWindow.dispatchEvent(new KeyboardEvent('keydown', {
-      key: e.key, code: e.code, keyCode: e.keyCode,
-      which: e.which, bubbles: true, cancelable: true,
-      shiftKey: e.shiftKey, ctrlKey: e.ctrlKey, altKey: e.altKey
-    }));
-  } catch(err) {}
-}, true);
-
-document.addEventListener('keyup', function(e) {
-  const frame = document.getElementById('game-frame');
-  const launcher = document.getElementById('launcher');
-  if (!launcher.classList.contains('on')) return;
-  try {
-    frame.contentWindow.dispatchEvent(new KeyboardEvent('keyup', {
-      key: e.key, code: e.code, keyCode: e.keyCode,
-      which: e.which, bubbles: true, cancelable: true,
-      shiftKey: e.shiftKey, ctrlKey: e.ctrlKey, altKey: e.altKey
-    }));
-  } catch(err) {}
-}, true);
-
-function startFPS() {
-  let fps=58;
+// ══════════════════════════════════════════
+//  FPS COUNTER
+// ══════════════════════════════════════════
+function startFPS(){
+  let fps=60;
   fpsTimer=setInterval(()=>{
-    const t=Math.min(opts.fpsLimit>=300?144:opts.fpsLimit,144);
-    fps=Math.min(t,Math.max(t-8,fps+(Math.random()>.5?1:-1)));
+    const target=Math.min(perfOpts.fpsLimit>=300?144:perfOpts.fpsLimit,144);
+    fps=Math.min(target,Math.max(target-10,fps+(Math.random()>.5?1:-1)));
     fps=Math.round(fps);
-    const el=document.getElementById('fps-live');
+    const el=document.getElementById('g-fps');
     el.textContent=fps+' FPS';
-    el.style.color=fps>=t*.85?'var(--accent)':fps>=40?'var(--gold)':'var(--red)';
+    el.style.color=fps>=target*.85?'var(--acc)':fps>=40?'var(--gold)':'var(--red)';
   },1000);
 }
 
-function setQ(btn) {
-  document.querySelectorAll('.qbtn').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
+// ══════════════════════════════════════════
+//  FOCUS MANAGEMENT
+// ══════════════════════════════════════════
+function doFocus(){
+  const frame=document.getElementById('gframe');
+  document.getElementById('focus-hint').style.display='none';
+  frame.focus();try{frame.contentWindow.focus();}catch(e){}
 }
+document.getElementById('gframe').addEventListener('load',()=>{
+  setTimeout(()=>{const f=document.getElementById('gframe');f.focus();try{f.contentWindow.focus();}catch(e){}},300);
+});
+// 親キーイベントをiframeへ転送
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('launcher').classList.contains('on'))return;
+  try{document.getElementById('gframe').contentWindow.dispatchEvent(new KeyboardEvent('keydown',{key:e.key,code:e.code,keyCode:e.keyCode,which:e.which,bubbles:true,cancelable:true,shiftKey:e.shiftKey,ctrlKey:e.ctrlKey,altKey:e.altKey}));}catch(err){}
+},true);
+document.addEventListener('keyup',e=>{
+  if(!document.getElementById('launcher').classList.contains('on'))return;
+  try{document.getElementById('gframe').contentWindow.dispatchEvent(new KeyboardEvent('keyup',{key:e.key,code:e.code,keyCode:e.keyCode,which:e.which,bubbles:true,cancelable:true,shiftKey:e.shiftKey,ctrlKey:e.ctrlKey,altKey:e.altKey}));}catch(err){}
+},true);
+// ゲーム画面クリックでフォーカス
+document.getElementById('launcher').addEventListener('mousedown',e=>{
+  if(e.target===document.getElementById('gframe')){
+    document.getElementById('gframe').focus();
+    try{document.getElementById('gframe').contentWindow.focus();}catch(err){}
+  }
+});
+
+// ══════════════════════════════════════════
+//  QUALITY PRESET
+// ══════════════════════════════════════════
+function setQ(btn){document.querySelectorAll('.qbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');}
+
+// ══════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════
+(async()=>{
+  db=await openDB();
+  updateStatsBadges();
+  await loadStoredGame();
+})();
 </script>
 </body>
 </html>
