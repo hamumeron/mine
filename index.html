@@ -17,7 +17,6 @@
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;overflow-x:hidden}
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bg-hover);border-radius:3px}
 
-/* TOPBAR */
 .topbar{position:fixed;top:0;left:0;right:0;z-index:100;height:52px;background:rgba(10,12,16,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:28px}
 .logo{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:22px;color:var(--accent);letter-spacing:1px;display:flex;align-items:center;gap:10px}
 .logo-sub{font-size:10px;font-weight:600;letter-spacing:2px;color:var(--text3);text-transform:uppercase}
@@ -28,23 +27,21 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
 .tier{background:var(--accent);color:#000;font-size:10px;font-weight:700;padding:3px 10px;border-radius:3px;letter-spacing:1px;text-transform:uppercase}
 .av{width:30px;height:30px;border-radius:50%;background:var(--bg-surface);border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--accent)}
 
-/* HERO */
-.hero{margin-top:52px;position:relative;height:400px;overflow:hidden;display:flex;align-items:flex-end}
+.hero{margin-top:52px;position:relative;height:380px;overflow:hidden;display:flex;align-items:flex-end}
 .hero-bg{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 20%,var(--bg) 100%),linear-gradient(to right,var(--bg) 0%,transparent 45%),url('https://eaglercraft.com/img/ss/1.8-screenshot-3.webp') center/cover no-repeat;filter:saturate(.6) brightness(.45)}
-.hero-inner{position:relative;z-index:2;padding:0 48px 44px;max-width:580px}
+.hero-inner{position:relative;z-index:2;padding:0 48px 40px;max-width:560px}
 .hero-pill{display:inline-flex;align-items:center;gap:6px;background:var(--accent-glow);border:1px solid var(--border-a);color:var(--accent);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:3px 12px;border-radius:3px;margin-bottom:14px}
 .hero-pill::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-.hero-title{font-family:'Rajdhani',sans-serif;font-size:52px;font-weight:700;line-height:1;margin-bottom:10px;letter-spacing:1px}
+.hero-title{font-family:'Rajdhani',sans-serif;font-size:50px;font-weight:700;line-height:1;margin-bottom:10px;letter-spacing:1px}
 .hero-title span{color:var(--accent)}
-.hero-desc{color:var(--text2);font-size:13px;line-height:1.65;margin-bottom:24px;max-width:400px}
+.hero-desc{color:var(--text2);font-size:13px;line-height:1.65;margin-bottom:22px;max-width:400px}
 .btns{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .btn-play{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#000;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;letter-spacing:1px;padding:11px 26px;border-radius:4px;cursor:pointer;border:none;text-transform:uppercase;transition:all .2s}
 .btn-play:hover{background:#8fd000;transform:translateY(-1px);box-shadow:0 4px 18px rgba(118,185,0,.35)}
 .btn-sec{display:inline-flex;align-items:center;gap:7px;background:transparent;color:var(--text);border:1px solid var(--border);padding:10px 18px;border-radius:4px;cursor:pointer;font-size:13px;transition:all .2s;font-family:'Inter',sans-serif}
 .btn-sec:hover{border-color:rgba(255,255,255,.18);background:var(--bg-surface)}
 
-/* STATSBAR */
 .statsbar{display:flex;background:var(--bg-card);border-bottom:1px solid var(--border)}
 .stat{flex:1;padding:14px 24px;border-right:1px solid var(--border)}
 .stat:last-child{border-right:none}
@@ -52,35 +49,43 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
 .sval{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700}
 .sval.g{color:var(--accent)}.sval.gold{color:var(--gold)}
 
-/* CONTENT */
 .content{padding:36px 48px}
 .sec-head{display:flex;align-items:center;gap:14px;margin-bottom:20px}
 .sec-title{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
 .sec-line{flex:1;height:1px;background:var(--border)}
 
 /* UPLOAD ZONE */
-.upload-zone{border:2px dashed var(--border-a);border-radius:10px;padding:40px;text-align:center;background:var(--accent-glow);transition:all .2s;cursor:pointer;margin-bottom:32px;position:relative}
-.upload-zone:hover,.upload-zone.drag{border-color:var(--accent);background:rgba(118,185,0,.08)}
+.upload-zone{border:2px dashed var(--border-a);border-radius:10px;padding:36px;text-align:center;background:var(--accent-glow);transition:all .2s;cursor:pointer;margin-bottom:16px;position:relative}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--accent);background:rgba(118,185,0,.1)}
 .upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.uz-icon{font-size:40px;margin-bottom:12px}
+.uz-icon{font-size:36px;margin-bottom:10px}
 .uz-title{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:var(--accent);margin-bottom:6px}
-.uz-sub{font-size:13px;color:var(--text2);line-height:1.6}
-.uz-badge{display:inline-block;margin-top:10px;background:var(--bg-surface);border:1px solid var(--border);color:var(--text3);font-size:11px;padding:4px 12px;border-radius:3px}
+.uz-sub{font-size:13px;color:var(--text2);line-height:1.7}
+.uz-note{margin-top:10px;font-size:11px;color:var(--text3);background:var(--bg-surface);display:inline-block;padding:4px 12px;border-radius:3px;border:1px solid var(--border)}
+
+/* FILE LIST PREVIEW */
+#file-list{display:none;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin-bottom:16px;font-size:12px;color:var(--text2);max-height:150px;overflow-y:auto}
+#file-list div{padding:2px 0;border-bottom:1px solid rgba(255,255,255,.03)}
+#file-list div:last-child{border:none}
+#file-list span.highlight{color:var(--accent);font-weight:600}
 
 /* PROGRESS */
-.progress-wrap{margin-bottom:32px;display:none}
+.progress-wrap{margin-bottom:24px;display:none}
 .progress-label{display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px;color:var(--text2)}
 .progress-bar-bg{height:5px;background:var(--bg-surface);border-radius:3px;overflow:hidden}
 .progress-bar-fill{height:100%;background:var(--accent);border-radius:3px;width:0;transition:width .3s;box-shadow:0 0 6px var(--accent)}
-.progress-files{margin-top:10px;font-size:11px;color:var(--text3)}
+.progress-files{margin-top:8px;font-size:11px;color:var(--text3)}
+
+/* ERROR BOX */
+#error-box{display:none;background:rgba(229,57,53,.08);border:1px solid rgba(229,57,53,.3);border-radius:6px;padding:14px 18px;margin-bottom:16px;color:#ff6b6b;font-size:13px;line-height:1.6}
 
 /* SETTINGS */
-.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:32px}
-.sc{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:18px;transition:border-color .2s}
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-bottom:28px}
+.sc{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px;transition:border-color .2s}
 .sc:hover{border-color:rgba(255,255,255,.12)}
 .sch{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .scn{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:1px}
-.scv{font-family:'Rajdhani',sans-serif;font-size:26px;font-weight:700;margin-bottom:8px}
+.scv{font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;margin-bottom:8px}
 .scv.acc{color:var(--accent)}
 .sl{width:100%;-webkit-appearance:none;appearance:none;height:4px;background:var(--bg-surface);border-radius:2px;outline:none;cursor:pointer;border:none}
 .sl::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 5px rgba(118,185,0,.5)}
@@ -91,37 +96,26 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
 .tgl::after{content:'';position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:#fff;transition:left .2s}
 .tgl.on::after{left:21px}
 
-/* INSTRUCTIONS */
-.instr{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:32px}
-.instr-steps{display:flex;gap:16px;margin-top:16px;flex-wrap:wrap}
-.step{flex:1;min-width:150px;display:flex;flex-direction:column;gap:6px}
-.step-num{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;color:var(--accent);line-height:1}
-.step-title{font-size:13px;font-weight:600;color:var(--text)}
-.step-desc{font-size:12px;color:var(--text2);line-height:1.5}
-.step-arrow{font-size:20px;color:var(--text3);align-self:center;padding-bottom:8px}
-
 /* LAUNCH OVERLAY */
 #launcher{position:fixed;inset:0;z-index:200;display:none;flex-direction:column;background:var(--bg)}
 #launcher.on{display:flex}
 .l-top{height:46px;background:rgba(10,12,16,.98);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 18px;gap:14px;flex-shrink:0}
 .l-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:blink 2s infinite}
 .l-title{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;color:var(--accent);letter-spacing:.5px}
-.l-url{font-size:11px;color:var(--text3)}
+.l-info{font-size:11px;color:var(--text3)}
 .l-close{margin-left:auto;background:transparent;border:1px solid var(--border);color:var(--text2);padding:4px 14px;border-radius:3px;cursor:pointer;font-size:12px;font-family:'Inter',sans-serif;transition:all .15s}
 .l-close:hover{border-color:var(--red);color:var(--red)}
-.l-body{flex:1;position:relative;display:flex;flex-direction:column}
-#game-frame{flex:1;border:none;background:#000;width:100%;height:100%}
+.l-body{flex:1;position:relative;display:flex;flex-direction:column;overflow:hidden}
+#game-frame{flex:1;border:none;background:#000;width:100%;height:100%;display:block}
 
-/* LOADING */
-#load-overlay{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;z-index:10;transition:opacity .5s}
-.load-logo{font-family:'Rajdhani',sans-serif;font-size:38px;font-weight:700;color:var(--accent)}
+#load-overlay{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;z-index:10;transition:opacity .5s}
+.load-logo{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;color:var(--accent)}
 .load-status{font-size:13px;color:var(--text2);letter-spacing:1px}
-.load-bar-bg{width:300px;height:3px;background:var(--bg-surface);border-radius:2px;overflow:hidden}
+.load-bar-bg{width:280px;height:3px;background:var(--bg-surface);border-radius:2px;overflow:hidden}
 .load-bar{height:100%;background:var(--accent);border-radius:2px;width:0;transition:width .4s;box-shadow:0 0 8px var(--accent)}
 .load-sub{font-size:11px;color:var(--text3);letter-spacing:.5px}
 
-/* QBAR */
-.qbar{background:var(--bg-card);border-top:1px solid var(--border);padding:8px 18px;display:flex;align-items:center;gap:16px;flex-shrink:0}
+.qbar{background:var(--bg-card);border-top:1px solid var(--border);padding:8px 18px;display:flex;align-items:center;gap:14px;flex-shrink:0}
 .ql{font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase}
 .qopts{display:flex;gap:6px}
 .qbtn{padding:4px 12px;border-radius:3px;font-size:11px;font-weight:600;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;letter-spacing:.5px}
@@ -133,19 +127,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
 <body>
 
 <header class="topbar">
-  <div class="logo">
-    ⚡ EaglerCloud
-    <span class="logo-sub">Gaming Platform</span>
-  </div>
+  <div class="logo">⚡ EaglerCloud <span class="logo-sub">Gaming Platform</span></div>
   <nav><ul class="nav">
     <li><a href="#" class="on">ホーム</a></li>
-    <li><a href="#">ライブラリ</a></li>
     <li><a href="#settings-sec">設定</a></li>
   </ul></nav>
-  <div class="ml">
-    <span class="tier">ULTRA</span>
-    <div class="av">EC</div>
-  </div>
+  <div class="ml"><span class="tier">ULTRA</span><div class="av">EC</div></div>
 </header>
 
 <section class="hero">
@@ -153,13 +140,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
   <div class="hero-inner">
     <div class="hero-pill">WASM高速エンジン搭載</div>
     <h1 class="hero-title">Eaglercraft<br><span>1.12.2</span></h1>
-    <p class="hero-desc">ZIPをアップロードするだけ。WebAssemblyで動くブラウザ版Minecraftを、GeForce NOWのような高品質UIで楽しめます。</p>
+    <p class="hero-desc">WASMのZIPをアップロードするだけ。ブラウザ内で解凍して即プレイ。</p>
     <div class="btns">
       <button class="btn-play" onclick="document.getElementById('upload-sec').scrollIntoView({behavior:'smooth'})">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         今すぐ起動
       </button>
-      <button class="btn-sec" onclick="document.getElementById('settings-sec').scrollIntoView({behavior:'smooth'})">⚙ 設定</button>
     </div>
   </div>
 </section>
@@ -169,65 +155,48 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
   <div class="stat"><div class="slabel">エンジン</div><div class="sval g">WASM</div></div>
   <div class="stat"><div class="slabel">レンダリング</div><div class="sval g">WebGL 2</div></div>
   <div class="stat"><div class="slabel">FPS上限</div><div class="sval gold" id="fps-stat">60</div></div>
-  <div class="stat"><div class="slabel">ステータス</div><div class="sval g">READY</div></div>
+  <div class="stat"><div class="slabel">ステータス</div><div class="sval g" id="status-txt">READY</div></div>
 </div>
 
 <main class="content">
 
-  <!-- HOW TO -->
   <div id="upload-sec">
-    <div class="sec-head"><span class="sec-title">🚀 起動方法</span><div class="sec-line"></div></div>
-    <div class="instr">
-      <p style="color:var(--text2);font-size:13px">まずWASM ZIPをダウンロードして、下のエリアにアップロードするだけでプレイ開始できます。</p>
-      <div class="instr-steps">
-        <div class="step">
-          <div class="step-num">01</div>
-          <div class="step-title">ZIPをダウンロード</div>
-          <div class="step-desc">
-            <a href="https://bafybeia6z4k53c5ta26g3m37kvmorcpfo3rvo4ashefxxmikvq3wouboda.ipfs.inbrowser.link/?filename=Eaglercraft_1.12_WASM_Offline_Download.zip"
-               target="_blank" style="color:var(--accent)">IPFSリンクからダウンロード</a>
-          </div>
-        </div>
-        <div class="step-arrow">▶</div>
-        <div class="step">
-          <div class="step-num">02</div>
-          <div class="step-title">ZIPをアップロード</div>
-          <div class="step-desc">下のドロップゾーンにZIPファイルをドラッグ&amp;ドロップ</div>
-        </div>
-        <div class="step-arrow">▶</div>
-        <div class="step">
-          <div class="step-num">03</div>
-          <div class="step-title">自動解凍</div>
-          <div class="step-desc">ブラウザ内で自動的に解凍してゲームを起動</div>
-        </div>
-        <div class="step-arrow">▶</div>
-        <div class="step">
-          <div class="step-num">04</div>
-          <div class="step-title">プレイ開始!</div>
-          <div class="step-desc">設定したFPS・品質でEaglercraft 1.12.2を楽しむ</div>
-        </div>
+    <div class="sec-head"><span class="sec-title">📦 ZIPファイルを選択</span><div class="sec-line"></div></div>
+
+    <div class="upload-zone" id="drop-zone">
+      <input type="file" id="zip-input" accept=".zip,.html" onchange="handleFile(this.files[0])">
+      <div class="uz-icon">📂</div>
+      <div class="uz-title">ZIPをここにドロップ</div>
+      <div class="uz-sub">
+        <strong style="color:var(--text)">Eaglercraft_1.12_WASM_Offline_Download.zip</strong> を選択<br>
+        またはクリックしてファイルを選択<br>
+        <small style="color:var(--text3)">※ .htmlファイル単体でも直接起動できます</small>
       </div>
+      <span class="uz-note">対応: .zip / .html</span>
     </div>
-  </div>
 
-  <!-- UPLOAD ZONE -->
-  <div class="sec-head"><span class="sec-title">📦 ZIPファイルを選択</span><div class="sec-line"></div></div>
+    <div id="error-box"></div>
 
-  <div class="upload-zone" id="drop-zone">
-    <input type="file" id="zip-input" accept=".zip" onchange="handleZip(this.files[0])">
-    <div class="uz-icon">📂</div>
-    <div class="uz-title">ZIPをここにドロップ</div>
-    <div class="uz-sub">Eaglercraft_1.12_WASM_Offline_Download.zip<br>またはクリックしてファイルを選択</div>
-    <span class="uz-badge">対応: .zip</span>
-  </div>
+    <!-- ZIPの中身プレビュー -->
+    <div id="file-list"></div>
 
-  <div class="progress-wrap" id="progress-wrap">
-    <div class="progress-label">
-      <span id="progress-text">解凍中...</span>
-      <span id="progress-pct">0%</span>
+    <div class="progress-wrap" id="progress-wrap">
+      <div class="progress-label">
+        <span id="progress-text">処理中...</span>
+        <span id="progress-pct">0%</span>
+      </div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
+      <div class="progress-files" id="progress-files"></div>
     </div>
-    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
-    <div class="progress-files" id="progress-files"></div>
+
+    <div style="background:var(--bg-card);border:1px solid var(--border-a);border-radius:6px;padding:14px 18px;margin-bottom:32px;font-size:12px;color:var(--text2);line-height:1.7">
+      💡 <strong style="color:var(--accent)">ZIPの入手先:</strong>
+      <a href="https://bafybeia6z4k53c5ta26g3m37kvmorcpfo3rvo4ashefxxmikvq3wouboda.ipfs.inbrowser.link/?filename=Eaglercraft_1.12_WASM_Offline_Download.zip"
+         target="_blank" style="color:var(--accent)">IPFS (公式)</a> /
+      <a href="https://eaglercraft.com/p/downloads" target="_blank" style="color:var(--accent)">eaglercraft.com/p/downloads</a> /
+      <a href="https://eaglercraft.ir/downloads/" target="_blank" style="color:var(--accent)">eaglercraft.ir</a>
+      — ダウンロード後にここへアップロードしてください
+    </div>
   </div>
 
   <!-- SETTINGS -->
@@ -265,9 +234,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
         </div>
       </div>
     </div>
-    <div style="background:var(--bg-card);border:1px solid var(--border-a);border-radius:6px;padding:14px 18px;font-size:12px;color:var(--text2);line-height:1.7">
+    <div style="background:var(--bg-card);border:1px solid var(--border-a);border-radius:6px;padding:12px 16px;font-size:12px;color:var(--text2);line-height:1.7">
       💡 <strong style="color:var(--accent)">高FPSのコツ:</strong>
-      ChromeまたはEdgeを使用 · chrome://settings → ハードウェアアクセラレーションを有効化 · グラフィックを「高速」に設定 · 描画距離を8〜12チャンクに
+      Chrome/Edgeを使用 · ハードウェアアクセラレーションをON · グラフィックを「高速」に · 描画距離は8〜12チャンク推奨
     </div>
   </div>
 
@@ -278,8 +247,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
   <div class="l-top">
     <div class="l-dot"></div>
     <span class="l-title">EaglerCloud — ゲーム実行中</span>
-    <span class="l-url" id="l-url">Eaglercraft 1.12.2</span>
-    <span id="live-fps" style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:var(--accent);letter-spacing:1px;margin-left:16px"></span>
+    <span class="l-info" id="l-info">Eaglercraft 1.12.2 WASM</span>
+    <span id="live-fps" style="font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;color:var(--accent);letter-spacing:1px;margin-left:14px"></span>
     <button class="l-close" onclick="closeGame()">✕ 終了</button>
   </div>
   <div class="l-body">
@@ -289,14 +258,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Inter'
       <div class="load-bar-bg"><div class="load-bar" id="load-bar"></div></div>
       <div class="load-sub" id="load-sub">WebAssemblyエンジンを初期化中</div>
     </div>
-    <iframe id="game-frame" allowfullscreen allow="fullscreen;autoplay;pointer-lock"></iframe>
+    <iframe id="game-frame" allowfullscreen allow="fullscreen;autoplay;pointer-lock" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-pointer-lock allow-modals"></iframe>
   </div>
   <div class="qbar">
     <span class="ql">品質</span>
     <div class="qopts">
-      <button class="qbtn" onclick="setQ('fast',this)">高速</button>
-      <button class="qbtn on" onclick="setQ('bal',this)">バランス</button>
-      <button class="qbtn" onclick="setQ('ultra',this)">ウルトラ</button>
+      <button class="qbtn" onclick="setQ(this)">高速</button>
+      <button class="qbtn on" onclick="setQ(this)">バランス</button>
+      <button class="qbtn" onclick="setQ(this)">ウルトラ</button>
     </div>
     <span style="font-size:11px;color:var(--text3);margin-left:12px">F11でフルスクリーン · Escでマウス解除</span>
     <div class="fps-live" id="fps-live">-- FPS</div>
@@ -311,80 +280,176 @@ let fpsTimer, gameUrl = null;
 const dz = document.getElementById('drop-zone');
 dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
 dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
-dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag'); const f = e.dataTransfer.files[0]; if(f) handleZip(f); });
+dz.addEventListener('drop', e => {
+  e.preventDefault(); dz.classList.remove('drag');
+  const f = e.dataTransfer.files[0];
+  if(f) handleFile(f);
+});
 
-async function handleZip(file) {
-  if (!file || !file.name.endsWith('.zip')) {
-    alert('ZIPファイルを選択してください'); return;
+function showError(msg) {
+  const el = document.getElementById('error-box');
+  el.innerHTML = '⚠ ' + msg;
+  el.style.display = 'block';
+}
+function hideError() {
+  document.getElementById('error-box').style.display = 'none';
+}
+
+async function handleFile(file) {
+  hideError();
+  document.getElementById('file-list').style.display = 'none';
+
+  // .html ファイル単体の場合はそのまま起動
+  if (file.name.endsWith('.html') || file.name.endsWith('.htm')) {
+    const blob = new Blob([await file.arrayBuffer()], { type: 'text/html' });
+    gameUrl = URL.createObjectURL(blob);
+    document.getElementById('status-txt').textContent = 'LOADED';
+    launchGame(file.name);
+    return;
   }
+
+  if (!file.name.endsWith('.zip')) {
+    showError('ZIPファイルまたはHTMLファイルを選択してください。');
+    return;
+  }
+
   const pw = document.getElementById('progress-wrap');
   pw.style.display = 'block';
   setProgress(0, 'ZIPを読み込み中...', '');
 
   try {
-    const zip = await JSZip.loadAsync(file, {
-      onUpdate: meta => setProgress(Math.round(meta.percent * 0.4), 'ZIPを解析中...', meta.currentFile || '')
+    const zip = await JSZip.loadAsync(file);
+    const files = Object.keys(zip.files).filter(f => !zip.files[f].dir);
+
+    // ファイル一覧を表示してデバッグしやすくする
+    const fl = document.getElementById('file-list');
+    fl.style.display = 'block';
+    fl.innerHTML = '<div style="color:var(--text3);margin-bottom:6px;font-size:11px;letter-spacing:1px">📋 ZIP内のファイル (' + files.length + '件)</div>';
+    files.slice(0, 30).forEach(f => {
+      const isHTML = f.match(/\.html?$/i);
+      fl.innerHTML += `<div>${isHTML ? '<span class="highlight">▶ ' + f + '</span>' : f}</div>`;
     });
+    if (files.length > 30) fl.innerHTML += `<div style="color:var(--text3)">... 他${files.length-30}件</div>`;
 
-    const files = Object.keys(zip.files);
-    // Find index.html
-    const indexPath = files.find(f => f.match(/index\.html?$/i) && !zip.files[f].dir);
-    if (!indexPath) {
-      alert('index.htmlが見つかりません。正しいEaglercraft WASMのZIPか確認してください。');
-      pw.style.display = 'none'; return;
+    // HTMLファイルを優先度順で探す
+    const htmlFiles = files.filter(f => f.match(/\.html?$/i));
+
+    // 優先順: WASM系 > offline系 > index > その他
+    const priority = [
+      /wasm.*offline/i, /offline.*wasm/i,
+      /eaglercraft.*1\.12/i, /1\.12.*eaglercraft/i,
+      /eaglercraft/i,
+      /offline/i,
+      /index\.html?$/i,
+    ];
+
+    let mainHTML = null;
+    for (const pat of priority) {
+      mainHTML = htmlFiles.find(f => pat.test(f));
+      if (mainHTML) break;
+    }
+    if (!mainHTML && htmlFiles.length > 0) mainHTML = htmlFiles[0];
+
+    if (!mainHTML) {
+      setProgress(0, '', '');
+      pw.style.display = 'none';
+      showError(
+        'HTMLファイルが見つかりませんでした。<br>' +
+        'ZIP内のファイル: ' + files.slice(0,10).join(', ') + (files.length>10?'...':'') + '<br>' +
+        '<br>💡 ZIPを解凍してHTMLファイルを直接アップロードすることもできます。'
+      );
+      return;
     }
 
-    setProgress(45, 'ファイルを展開中...', indexPath);
+    setProgress(20, 'ファイルを展開中...', mainHTML + ' を起動ファイルとして使用');
 
-    // Extract all files to blobs
+    // 全ファイルをBlob URLに変換
     const blobMap = {};
-    const fileList = files.filter(f => !zip.files[f].dir);
     let done = 0;
-
-    for (const path of fileList) {
+    for (const path of files) {
+      const ext = path.split('.').pop().toLowerCase();
+      const mimeMap = {
+        html:'text/html', htm:'text/html',
+        js:'application/javascript', mjs:'application/javascript',
+        css:'text/css',
+        wasm:'application/wasm',
+        png:'image/png', jpg:'image/jpeg', jpeg:'image/jpeg', gif:'image/gif', webp:'image/webp',
+        ogg:'audio/ogg', mp3:'audio/mpeg', wav:'audio/wav',
+        json:'application/json', txt:'text/plain',
+        bin:'application/octet-stream',
+      };
+      const mime = mimeMap[ext] || 'application/octet-stream';
       const data = await zip.files[path].async('blob');
-      blobMap[path] = URL.createObjectURL(data);
+      const typedBlob = new Blob([data], { type: mime });
+      blobMap[path] = URL.createObjectURL(typedBlob);
+      // キーのバリエーションも登録
+      const noSlash = path.replace(/^\//, '');
+      blobMap[noSlash] = blobMap[path];
+      const basename = path.split('/').pop();
+      if (!blobMap[basename]) blobMap[basename] = blobMap[path];
+
       done++;
-      setProgress(45 + Math.round((done / fileList.length) * 45), `展開中 (${done}/${fileList.length})`, path);
+      setProgress(20 + Math.round((done / files.length) * 60), `展開中 (${done}/${files.length})`, path);
     }
 
-    setProgress(92, 'ゲームを準備中...', 'HTMLを処理中');
+    setProgress(82, 'HTMLを処理中...', mainHTML);
 
-    // Read index.html and replace relative paths with blob URLs
-    const htmlContent = await zip.files[indexPath].async('string');
-    const baseDir = indexPath.includes('/') ? indexPath.substring(0, indexPath.lastIndexOf('/') + 1) : '';
+    // index HTMLを読み込んでパス書き換え
+    const htmlText = await zip.files[mainHTML].async('string');
+    const baseDir = mainHTML.includes('/') ? mainHTML.substring(0, mainHTML.lastIndexOf('/') + 1) : '';
+    const patched = patchHTML(htmlText, blobMap, baseDir);
 
-    const patchedHTML = patchHTML(htmlContent, blobMap, baseDir, indexPath);
-    const htmlBlob = new Blob([patchedHTML], { type: 'text/html' });
+    const htmlBlob = new Blob([patched], { type: 'text/html' });
     gameUrl = URL.createObjectURL(htmlBlob);
 
-    setProgress(100, '起動準備完了!', 'Eaglercraft 1.12.2 WASM');
-    setTimeout(() => { pw.style.display = 'none'; launchGame(); }, 600);
+    setProgress(100, '起動準備完了! (' + mainHTML + ')', '');
+    document.getElementById('status-txt').textContent = 'LOADED';
+    setTimeout(() => { pw.style.display = 'none'; launchGame(mainHTML); }, 700);
 
   } catch(e) {
     console.error(e);
-    alert('エラー: ' + e.message);
     pw.style.display = 'none';
+    showError('エラーが発生しました: ' + e.message);
   }
 }
 
-function patchHTML(html, blobMap, baseDir, indexPath) {
-  // Replace src/href references with blob URLs
-  return html.replace(/(src|href|action)=["']([^"'#?]+)["']/gi, (match, attr, val) => {
-    if (val.startsWith('http') || val.startsWith('blob:') || val.startsWith('data:')) return match;
-    const lookups = [
-      baseDir + val,
-      val,
-      val.replace(/^\.\//, baseDir),
+function patchHTML(html, blobMap, baseDir) {
+  // src=, href=, url() などを置換
+  const replace = (attr, val) => {
+    if (!val || val.startsWith('http') || val.startsWith('blob:') || val.startsWith('data:') || val.startsWith('#') || val.startsWith('javascript:')) return null;
+    const clean = val.split('?')[0].split('#')[0];
+    const candidates = [
+      baseDir + clean,
+      clean,
+      clean.replace(/^\.\//, baseDir),
+      clean.replace(/^\//, ''),
+      baseDir + clean.replace(/^\.\//, ''),
     ];
-    for (const key of lookups) {
-      if (blobMap[key]) return `${attr}="${blobMap[key]}"`;
-      // try without leading slash
-      const noSlash = key.replace(/^\//, '');
-      if (blobMap[noSlash]) return `${attr}="${blobMap[noSlash]}"`;
+    for (const c of candidates) {
+      if (blobMap[c]) return blobMap[c];
     }
-    return match;
+    return null;
+  };
+
+  // src= href=
+  html = html.replace(/(src|href|data-src)=["']([^"']+)["']/gi, (m, attr, val) => {
+    const r = replace(attr, val);
+    return r ? `${attr}="${r}"` : m;
   });
+
+  // url() in style
+  html = html.replace(/url\(["']?([^"')]+)["']?\)/gi, (m, val) => {
+    const r = replace('url', val);
+    return r ? `url("${r}")` : m;
+  });
+
+  // importScripts() inside scripts
+  html = html.replace(/importScripts\(["']([^"']+)["']\)/gi, (m, val) => {
+    const r = replace('importScripts', val);
+    return r ? `importScripts("${r}")` : m;
+  });
+
+  return html;
 }
 
 function setProgress(pct, text, sub) {
@@ -394,23 +459,22 @@ function setProgress(pct, text, sub) {
   document.getElementById('progress-files').textContent = sub;
 }
 
-function launchGame() {
+function launchGame(filename) {
   if (!gameUrl) return;
-  const el = document.getElementById('launcher');
+  document.getElementById('l-info').textContent = filename || 'Eaglercraft 1.12.2';
   const overlay = document.getElementById('load-overlay');
   const bar = document.getElementById('load-bar');
-
   overlay.style.display = 'flex'; overlay.style.opacity = '1';
   bar.style.width = '0';
-  el.classList.add('on');
+  document.getElementById('launcher').classList.add('on');
   document.body.style.overflow = 'hidden';
 
   const steps = [
-    [20,'WebAssemblyを初期化中...','WASMモジュールをコンパイル'],
-    [45,'WebGL 2.0を起動中...','シェーダーをコンパイル'],
-    [70,'ゲームデータを読み込み中...','アセットを初期化'],
-    [88,'ワールドを生成中...','チャンクを準備'],
-    [100,'起動完了!','Eaglercraft 1.12.2 準備完了'],
+    [25,'WebAssemblyを初期化中...','WASMモジュールをコンパイル'],
+    [50,'WebGL 2.0を起動中...','シェーダーをコンパイル'],
+    [75,'ゲームデータを読み込み中...','アセットを初期化'],
+    [90,'ワールドを準備中...','チャンクをロード'],
+    [100,'起動完了!','Eaglercraft 準備完了'],
   ];
   let i = 0;
   const step = () => {
@@ -419,13 +483,13 @@ function launchGame() {
       bar.style.width = p + '%';
       document.getElementById('load-status').textContent = s;
       document.getElementById('load-sub').textContent = b;
-      setTimeout(step, 500 + Math.random() * 400);
+      setTimeout(step, 400 + Math.random() * 300);
     } else {
       document.getElementById('game-frame').src = gameUrl;
       setTimeout(() => {
         overlay.style.opacity = '0';
         setTimeout(() => { overlay.style.display = 'none'; }, 500);
-      }, 400);
+      }, 300);
       startFPS();
     }
   };
@@ -442,17 +506,14 @@ function closeGame() {
 
 function startFPS() {
   let fps = 58;
-  const target = () => {
-    const s = document.querySelector('.sl');
-    return s ? Math.min(parseInt(s.value), 144) : 60;
-  };
   fpsTimer = setInterval(() => {
-    const t = target();
-    fps = Math.min(t, Math.max(t - 6, fps + (Math.random() > .5 ? 1 : -1)));
+    const sl = document.querySelector('.sl');
+    const target = sl ? Math.min(parseInt(sl.value), 144) : 60;
+    fps = Math.min(target, Math.max(target - 8, fps + (Math.random() > .5 ? 1 : -1)));
     fps = Math.round(fps);
     const el = document.getElementById('fps-live');
     el.textContent = fps + ' FPS';
-    el.style.color = fps >= t * .9 ? 'var(--accent)' : fps >= 45 ? 'var(--gold)' : 'var(--red)';
+    el.style.color = fps >= target * .85 ? 'var(--accent)' : fps >= 40 ? 'var(--gold)' : 'var(--red)';
   }, 1000);
 }
 
@@ -462,7 +523,7 @@ function setFPS(v) {
   document.getElementById('fps-stat').textContent = n >= 300 ? '∞' : n;
 }
 
-function setQ(q, btn) {
+function setQ(btn) {
   document.querySelectorAll('.qbtn').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
 }
